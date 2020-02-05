@@ -1,0 +1,50 @@
+
+others.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+seanA
+  rotate: false
+  xy: 1, 48
+  size: 772, 660
+  orig: 772, 660
+  offset: 0, 0
+  index: -1
+platform
+  rotate: false
+  xy: 1, 1
+  size: 200, 45
+  orig: 200, 45
+  offset: 0, 0
+  index: -1
+power
+  rotate: false
+  xy: 775, 638
+  size: 80, 70
+  orig: 80, 70
+  offset: 0, 0
+  index: -1
+
+others2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+seanB
+  rotate: false
+  xy: 1, 1
+  size: 772, 660
+  orig: 772, 660
+  offset: 0, 0
+  index: -1
+
+others3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+seanC
+  rotate: false
+  xy: 1, 1
+  size: 251, 365
+  orig: 251, 365
+  offset: 0, 0
+  index: -1

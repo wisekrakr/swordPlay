@@ -1,0 +1,47 @@
+
+powerups.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+enlarge
+  rotate: false
+  xy: 1, 1
+  size: 93, 93
+  orig: 93, 93
+  offset: 0, 0
+  index: -1
+extralife
+  rotate: false
+  xy: 96, 1
+  size: 93, 93
+  orig: 93, 93
+  offset: 0, 0
+  index: -1
+powerup
+  rotate: false
+  xy: 191, 1
+  size: 93, 93
+  orig: 93, 93
+  offset: 0, 0
+  index: -1
+reduce
+  rotate: false
+  xy: 286, 1
+  size: 93, 93
+  orig: 93, 93
+  offset: 0, 0
+  index: -1
+slowmo
+  rotate: false
+  xy: 381, 1
+  size: 93, 93
+  orig: 93, 93
+  offset: 0, 0
+  index: -1
+speedup
+  rotate: false
+  xy: 476, 1
+  size: 93, 93
+  orig: 93, 93
+  offset: 0, 0
+  index: -1
