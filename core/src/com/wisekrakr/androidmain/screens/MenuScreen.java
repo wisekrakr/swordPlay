@@ -58,24 +58,11 @@ public class MenuScreen extends ScreenAdapter {
         TextButton exit = new TextButton("exit", skin);
         TextButton reset = new TextButton("reset levels", skin);
 
-        final CheckBox censoring = new CheckBox("No Spaghetti and Meatballs, pls", skin);
-        censoring.setChecked( game.getGamePreferences().isCensored());
-        censoring.addListener( new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                boolean enabled = censoring.isChecked();
-                game.getGamePreferences().setCensoring( enabled );
-                return false;
-            }
-        });
-
         table.add(newGame).expandX();
         table.row();
         table.add(preferences).expandX();
         table.row();
         table.add(reset).expandX();
-        table.row();
-        table.add(censoring).expandX();
         table.row();
         table.add(exit).expandX();
 
@@ -102,12 +89,10 @@ public class MenuScreen extends ScreenAdapter {
         });
 
         textureRegion = new TextureRegion(new Texture("images/background/menubackground.jpg"));
-        textureRegionSean = new TextureRegion(new Texture("images/others/seanA.png"));
-        textureRegionTitle = new TextureRegion(new Texture("images/background/title_penis.png"));
-        textureRegionDrops = new TextureRegion(new Texture("images/background/drops.png"));
+         textureRegionDrops = new TextureRegion(new Texture("images/background/drops.png"));
 
-        Sound sound = game.assetManager().assetManager.get("sounds/titleA.wav", Sound.class);
-        sound.play(game.getGamePreferences().getSoundVolume());
+//        Sound sound = game.assetManager().assetManager.get("sounds/", Sound.class);
+//        sound.play(game.getGamePreferences().getSoundVolume());
 
         stage.addActor(table);
 
@@ -124,23 +109,17 @@ public class MenuScreen extends ScreenAdapter {
         stage.getBatch().draw(textureRegion, Gdx.graphics.getWidth()/2f - Gdx.graphics.getWidth()/2f,
                 Gdx.graphics.getHeight()/2f - Gdx.graphics.getHeight()/2f,
                 Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        stage.getBatch().draw(textureRegionSean, Gdx.graphics.getWidth()/2f,0);
-        stage.getBatch().draw(textureRegionTitle, 0, Gdx.graphics.getHeight()/2f - Gdx.graphics.getHeight()/2f,
-                Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
-        stage.getBatch().draw(textureRegionDrops, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        stage.getBatch().draw(textureRegionDrops, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         for (ImageButton character: ButtonHelper.getButtonList()){
             if (character.isChecked()){
                 character.addAction(Actions.sequence(Actions.fadeOut(0.2f), Actions.fadeIn(0.2f), Actions.repeat(10,new RepeatAction())));
-
             }
         }
 
         stage.getBatch().end();
         stage.draw();
-
-
 
         if (characterChosen) {
             newGame.addListener(new ChangeListener() {
@@ -150,12 +129,11 @@ public class MenuScreen extends ScreenAdapter {
                 }
             });
         }
-
     }
 
     private void chooseCharacter(){
 
-        BitmapFont font = game.assetManager().assetManager.get("font/penisBlackFont.fnt");
+        BitmapFont font = game.assetManager().assetManager.get("font/gamerFont.fnt");
         font.getData().setScale(GameConstants.FONT_SCALE);
 
         Label chooseLabel = LabelHelper.label("Choose your Style!", font, Color.WHITE);

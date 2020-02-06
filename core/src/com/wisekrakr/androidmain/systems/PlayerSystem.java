@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.components.*;
+import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.helpers.EntityStyleHelper;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 import com.wisekrakr.androidmain.retainers.SelectedCharacter;
@@ -16,22 +17,22 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
 
     @SuppressWarnings("unchecked")
     public PlayerSystem(MainGame game){
-        super(Family.all(PlayerComponent.class).get());
+        super(Family.all(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).get());
         this.game = game;
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
         CollisionComponent collisionComponent = game.getGameThread().getComponentMapperSystem().getCollisionComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
-        playerComponent.setSpeed(EntityStyleHelper.getStyle().getPenisSpeed());
+        playerComponent.setSpeed(EntityStyleHelper.getStyle().getSwordSpeed());
 
         if (!playerComponent.isDestroy()) {
-            penisHandler(entity);
-            if (collisionComponent.hitPenis && playerComponent.isMoving) {
-                collisionComponent.setHitPenis(false);
+            swordHandler(entity);
+            if (collisionComponent.hitSword && playerComponent.isMoving()) {
+                collisionComponent.setHitSword(false);
                 playerComponent.setDestroy(true);
 
                 ScoreKeeper.setLives(ScoreKeeper.lives - 1);
@@ -45,8 +46,8 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
         bodyHandler(entity, bodyComponent);
     }
 
-    private void penisHandler(Entity entity){
-        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+    private void swordHandler(Entity entity){
+        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
         for (Entity ent: playerComponent.getAttachedEntities()){
@@ -59,7 +60,7 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
 
     @Override
     public void bodyHandler(Entity entity, Box2dBodyComponent bodyComponent) {
-        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
 
         playerComponent.setPosition(bodyComponent.body.getPosition());
         playerComponent.setVelocityX(bodyComponent.body.getLinearVelocity().x);
@@ -69,7 +70,7 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
 
     @Override
     public void destroy(Entity entity) {
-        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
         SelectedCharacter.setDestroyed(true); //In LevelModel this is set to false again.

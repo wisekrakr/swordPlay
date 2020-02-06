@@ -4,20 +4,20 @@ import com.wisekrakr.androidmain.components.EntityStyle;
 
 public class SelectedCharacter {
 
-    private static float penisLength;
-    private static float penisGirth;
+    private static float swordLength;
+    private static float swordGirth;
 
     public static float getPenisLength() {
-        return penisLength;
+        return swordLength;
     }
 
-    public static void setPenisLengthGirth(float penisLength, float penisGirth) {
-        SelectedCharacter.penisLength = penisLength;
-        SelectedCharacter.penisGirth = penisGirth;
+    public static void setPenisLengthGirth(float swordLength, float swordGirth) {
+        SelectedCharacter.swordLength = swordLength;
+        SelectedCharacter.swordGirth = swordGirth;
     }
 
     public static float getPenisGirth() {
-        return penisGirth;
+        return swordGirth;
     }
 
     private static EntityStyle style;

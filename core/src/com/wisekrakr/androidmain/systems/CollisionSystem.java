@@ -46,8 +46,8 @@ public class CollisionSystem extends IteratingSystem {
                             collisionComponent.setHitPlayer(true);
                             collidedEntity.getComponent(CollisionComponent.class).setHitEnemy(true);
                             break;
-                        case PENIS:
-                            collisionComponent.setHitPenis(true);
+                        case SWORD:
+                            collisionComponent.setHitSword(true);
                             collidedEntity.getComponent(CollisionComponent.class).setHitEnemy(true);
                             break;
                     }
@@ -76,8 +76,8 @@ public class CollisionSystem extends IteratingSystem {
                         case POWER:
                             collisionComponent.setHitPower(true);
                             break;
-                        case PENIS:
-                            collisionComponent.setHitPenis(true);
+                        case SWORD:
+                            collisionComponent.setHitSword(true);
                             break;
                     }
                     collisionComponent.collisionEntity = null;
@@ -103,8 +103,8 @@ public class CollisionSystem extends IteratingSystem {
                             collisionComponent.setHitPower(true);
                             collidedEntity.getComponent(CollisionComponent.class).setHitPlayer(true);
                             break;
-                        case PENIS:
-                            collisionComponent.setHitPenis(true);
+                        case SWORD:
+                            collisionComponent.setHitSword(true);
                             collidedEntity.getComponent(CollisionComponent.class).setHitPlayer(true);
                             break;
                     }
@@ -112,22 +112,22 @@ public class CollisionSystem extends IteratingSystem {
                 }
             }
         }
-        if (thisType.getType().equals(TypeComponent.Type.PENIS)) {
+        if (thisType.getType().equals(TypeComponent.Type.SWORD)) {
             if (collidedEntity != null) {
                 TypeComponent typeComponent = collidedEntity.getComponent(TypeComponent.class);
                 if (typeComponent != null) {
                     switch (typeComponent.getType()){
                         case PLAYER:
                             collisionComponent.setHitPlayer(true);
-                            collidedEntity.getComponent(CollisionComponent.class).setHitPenis(true);
+                            collidedEntity.getComponent(CollisionComponent.class).setHitSword(true);
                             break;
                         case ENEMY:
                             collisionComponent.setHitEnemy(true);
-                            collidedEntity.getComponent(CollisionComponent.class).setHitPenis(true);
+                            collidedEntity.getComponent(CollisionComponent.class).setHitSword(true);
                             break;
-                        case PENIS:
-                            collisionComponent.setHitPenis(true);
-                            collidedEntity.getComponent(CollisionComponent.class).setHitPenis(true);
+                        case SWORD:
+                            collisionComponent.setHitSword(true);
+                            collidedEntity.getComponent(CollisionComponent.class).setHitSword(true);
                             break;
                     }
                     collisionComponent.collisionEntity = null;

@@ -3,8 +3,6 @@ package com.wisekrakr.androidmain.audiovisuals;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,10 +10,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.components.*;
-import com.wisekrakr.androidmain.helpers.GameHelper;
+import com.wisekrakr.androidmain.components.objects.ObstacleComponent;
 import com.wisekrakr.androidmain.systems.PhysicsDebugSystem;
 import com.wisekrakr.androidmain.systems.RenderingSystem;
 
@@ -28,8 +25,6 @@ public class Visualizer implements Disposable {
     private EntityVisuals entityVisuals;
 
     private final SpriteBatch spriteBatch;
-
-    private Animation<TextureRegion>animation;
 
     private float drawTime;
     private float clearTime;
@@ -65,23 +60,9 @@ public class Visualizer implements Disposable {
 
     private void backgroundArt(){
 
-        TextureRegion regionOne = new TextureRegion(new Texture("images/background/penisPattern01.jpg"));
-        TextureRegion regionTwo = new TextureRegion(new Texture("images/background/penisPattern02.jpg"));
-        TextureRegion regionThree = new TextureRegion(new Texture("images/background/penisPattern03.png"));
-        TextureRegion regionFour = new TextureRegion(new Texture("images/background/penisPattern04.jpg"));
-        TextureRegion regionFive = new TextureRegion(new Texture("images/background/penisPattern05.jpg"));
-        TextureRegion regionSix = new TextureRegion(new Texture("images/background/penisPattern06.jpeg"));
-        TextureRegion regionSeven = new TextureRegion(new Texture("images/background/penisPattern07.jpg"));
 
-        regions.add(regionOne);
-        regions.add(regionTwo);
-        regions.add(regionThree);
-        regions.add(regionFour);
-        regions.add(regionFive);
-        regions.add(regionSix);
-        regions.add(regionSeven);
 
-        backgroundRegion = regions.get(GameHelper.randomGenerator.nextInt(regions.size()));
+
     }
 
     public void drawEffects(){
@@ -106,14 +87,13 @@ public class Visualizer implements Disposable {
 
         spriteBatch.begin();
 
-        spriteBatch.draw(backgroundRegion,0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT); //todo add background
+//        spriteBatch.draw(backgroundRegion,0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
 
         for (Entity entity: game.getEngine().getEntities()){
-
-            if (!game.getGamePreferences().isCensored()) {
+            try {
                 entityVisuals.visualizeEntity(entity);
-            }else {
-                entityVisuals.visualizeCensoredEntity(entity);
+            } catch (Exception e){
+                System.out.println(this.getClass() + " " + e);
             }
 
         }
@@ -132,7 +112,7 @@ public class Visualizer implements Disposable {
                 TypeComponent.Type type = game.getGameThread().getComponentMapperSystem().getTypeComponentMapper().get(entity).getType();
                 if (type == TypeComponent.Type.ENEMY) {
 
-                    EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+                    com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
 
                     float width = enemyComponent.getWidth();
                     float height = enemyComponent.getHeight();
@@ -157,7 +137,7 @@ public class Visualizer implements Disposable {
                     shapeRenderer.rect(enemyComponent.getPosition().x, enemyComponent.getPosition().y, width,height);
 
                 } else if (type == TypeComponent.Type.POWER) {
-                    PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+                    com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
 
                     shapeRenderer.setColor(Color.CORAL);
                     shapeRenderer.rect(
@@ -166,7 +146,7 @@ public class Visualizer implements Disposable {
                             powerUpComponent.getWidth(), powerUpComponent.getHeight()
                     );
                 } else if (type == TypeComponent.Type.OBSTACLE){
-                    ObstacleComponent obstacleComponent = game.getGameThread().getComponentMapperSystem().getObstacleComponentMapper().get(entity);
+                    com.wisekrakr.androidmain.components.objects.ObstacleComponent obstacleComponent = game.getGameThread().getComponentMapperSystem().getObstacleComponentMapper().get(entity);
 
                     shapeRenderer.setColor(Color.BROWN);
                     shapeRenderer.rect(
@@ -200,7 +180,7 @@ public class Visualizer implements Disposable {
                 shapeRenderer.setColor(Color.CYAN);
                 switch (typeComponent.getType()) {
                     case PLAYER:
-                        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
 
                         Vector2 position = playerComponent.getPosition();
                         float angle = playerComponent.getDirection();
@@ -215,7 +195,7 @@ public class Visualizer implements Disposable {
                         );
                         break;
                     case ENEMY:
-                        EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+                        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
 
                         float w = enemyComponent.getWidth();
                         float h = enemyComponent.getHeight();
@@ -234,7 +214,7 @@ public class Visualizer implements Disposable {
                         );
                         break;
                     case POWER:
-                        PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+                        com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
 
                         shapeRenderer.rect(
                                 powerUpComponent.getPosition().x - powerUpComponent.getWidth()/2,

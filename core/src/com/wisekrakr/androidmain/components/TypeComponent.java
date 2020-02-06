@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool;
 public class TypeComponent implements Component, Pool.Poolable {
 
     public enum Type{
-        PLAYER, ENEMY, OBSTACLE, SCENERY, POWER, PENIS, TESTICLE //todo (diff level looks) jungle obstacle, ice obstacle
+        PLAYER, ENEMY, OBSTACLE, SCENERY, POWER, SWORD, SHIELD //todo (diff level looks) jungle obstacle, ice obstacle
     }
 
     private Type type = null;

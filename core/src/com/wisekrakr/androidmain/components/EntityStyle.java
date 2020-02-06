@@ -10,25 +10,25 @@ public enum EntityStyle {
     BLACK_GREYHAIR(10f,4f, 80f),
     WHITE_BALD(13f,5f, 50f);
 
-    private float penisLength;
-    private float penisGirth;
-    private float penisSpeed;
+    private float swordLength;
+    private float swordGirth;
+    private float swordSpeed;
 
     EntityStyle(float length, float girth, float speed) {
-        penisLength = length;
-        penisGirth = girth;
-        penisSpeed = speed;
+        swordLength = length;
+        swordGirth = girth;
+        swordSpeed = speed;
     }
 
     public float getPenisLength() {
-        return penisLength;
+        return swordLength;
     }
 
     public float getPenisGirth() {
-        return penisGirth;
+        return swordGirth;
     }
 
-    public float getPenisSpeed() {
-        return penisSpeed;
+    public float getSwordSpeed() {
+        return swordSpeed;
     }
 }

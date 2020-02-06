@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
-import com.wisekrakr.androidmain.components.PenisComponent;
-import com.wisekrakr.androidmain.components.PlayerComponent;
+import com.wisekrakr.androidmain.components.objects.SwordComponent;
+import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.components.TypeComponent;
 import com.wisekrakr.androidmain.helpers.LabelHelper;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
@@ -29,7 +29,7 @@ public class InfoDisplay implements Disposable {
 
     private Integer levelNumber;
     private Integer score;
-    private Integer penisLength;
+    private Integer swordLength;
     private Integer lives;
     private Integer enemies;
 
@@ -40,7 +40,7 @@ public class InfoDisplay implements Disposable {
     private Label timeCountLabel;
     private Label levelNumberLabel;
     private Label enemyNumberLabel;
-    private Label penisLengthLabel;
+    private Label swordLengthLabel;
     private Label livesNumberLabel;
 
     private MainGame game;
@@ -68,10 +68,10 @@ public class InfoDisplay implements Disposable {
         scoreCountLabel = LabelHelper.label(score != null ? score.toString() : null, font, Color.GOLDENROD);
         scoreAddedLabel = LabelHelper.label(currentScore != null ? currentScore.toString() : null, font, null);
         multiplierLabel = LabelHelper.label(multi != null ? multi.toString() : null, font, Color.PINK);
-        Label enemyNameLabel = LabelHelper.label("Libidos", font, Color.WHITE);
+        Label enemyNameLabel = LabelHelper.label("Enemies", font, Color.WHITE);
         enemyNumberLabel = LabelHelper.label(enemies != null ? enemies.toString() : null, font, Color.GOLDENROD);
-        Label penisLabel = LabelHelper.label("Penis length", font, Color.WHITE);
-        penisLengthLabel = LabelHelper.label(penisLength != null ? penisLength.toString() : null, font, Color.GOLDENROD);
+        Label swordLabel = LabelHelper.label("Sword length", font, Color.WHITE);
+        swordLengthLabel = LabelHelper.label(swordLength != null ? swordLength.toString() : null, font, Color.GOLDENROD);
         Label livesLabel = LabelHelper.label("Lives left", font, Color.WHITE);
         livesNumberLabel = LabelHelper.label(lives != null ? lives.toString() : null, font, Color.GOLDENROD);
 
@@ -91,9 +91,9 @@ public class InfoDisplay implements Disposable {
         tableRight.row();
         tableRight.add(enemyNumberLabel);
         tableRight.row();
-        tableRight.add(penisLabel).padBottom(2);
+        tableRight.add(swordLabel).padBottom(2);
         tableRight.row();
-        tableRight.add(penisLengthLabel).padBottom(2);
+        tableRight.add(swordLengthLabel).padBottom(2);
 
         tableLeft.add(livesLabel).padTop(2);
         tableLeft.row();
@@ -131,7 +131,7 @@ public class InfoDisplay implements Disposable {
             levelNumberLabel.setText(Integer.toString(game.getGameThread().getLevelGenerationSystem().getMainLevel()));
             enemyNumber();
 
-            penisLength();
+            swordLength();
             multiplier();
             lives();
         }
@@ -167,21 +167,21 @@ public class InfoDisplay implements Disposable {
         }
     }
 
-    private void penisLength(){
+    private void swordLength(){
 
         for (Entity entity: game.getEngine().getEntities()){
             if (entity.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER){
                 PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
 
                 for (Entity ent: playerComponent.getAttachedEntities()){
-                    if (ent.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PENIS) {
-                        PenisComponent penisComponent = game.getGameThread().getComponentMapperSystem().getPenisComponentMapper().get(ent);
+                    if (ent.getComponent(TypeComponent.class).getType() == TypeComponent.Type.SWORD) {
+                        SwordComponent swordComponent = game.getGameThread().getComponentMapperSystem().getSwordComponentMapper().get(ent);
 
-                        float length = penisComponent.getLength();
+                        float length = swordComponent.getWidth();
                         int inches = (int) (length / 2.54f);
                         DecimalFormat inchFormat = new DecimalFormat("#.00");
 
-                        penisLengthLabel.setText(length + " cm /" + inchFormat.format(inches) + " in");
+                        swordLengthLabel.setText(length + " cm /" + inchFormat.format(inches) + " in");
                     }
                 }
             }

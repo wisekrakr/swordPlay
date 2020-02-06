@@ -119,7 +119,7 @@ public class LoadingScreen extends ScreenAdapter {
                 currentLoadingStage = 6;
 
                 if (countDown <= 0){
-                    game.changeScreen(MainGame.TITLE);
+                    game.changeScreen(MainGame.MENU);
                 }
             }
         }

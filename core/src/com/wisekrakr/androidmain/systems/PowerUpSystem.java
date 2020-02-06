@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.components.*;
+import com.wisekrakr.androidmain.components.objects.PowerUpComponent;
 import com.wisekrakr.androidmain.helpers.PowerHelper;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 import com.wisekrakr.androidmain.retainers.SelectedCharacter;
@@ -15,13 +16,13 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
     private MainGame game;
 
     public PowerUpSystem(MainGame game) {
-        super(Family.all(PowerUpComponent.class).get());
+        super(Family.all(com.wisekrakr.androidmain.components.objects.PowerUpComponent.class).get());
         this.game = game;
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
         CollisionComponent collisionComponent = game.getGameThread().getComponentMapperSystem().getCollisionComponentMapper().get(entity);
 
@@ -40,7 +41,7 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
 
     @Override
     public void bodyHandler(Entity entity, Box2dBodyComponent bodyComponent) {
-        PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
 
         powerUpComponent.setPosition(bodyComponent.body.getPosition());
         powerUpComponent.setVelocityX(bodyComponent.body.getLinearVelocity().x);
@@ -50,21 +51,21 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
 
     private void powerHandler(Entity entity) {
         CollisionComponent collisionComponent = game.getGameThread().getComponentMapperSystem().getCollisionComponentMapper().get(entity);
-        PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
 
         switch (PowerHelper.getPower()){
             case ENLARGE_PLAYER:
                 for (Entity player: game.getEngine().getEntities()) {
                     if (player.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
-                        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(player);
+                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(player);
 
-                        float length = playerComponent.getPenisLength();
-                        float girth = playerComponent.getPenisGirth();
+                        float length = playerComponent.getSwordLength();
+                        float girth = playerComponent.getSwordGirth();
 
-                        playerComponent.setPenisLength(length + (length/5));
-                        playerComponent.setPenisGirth(girth + (girth/5));
+                        playerComponent.setSwordLength(length + (length/5));
+                        playerComponent.setSwordGirth(girth + (girth/5));
 
-                        SelectedCharacter.setPenisLengthGirth(playerComponent.getPenisLength(), playerComponent.getPenisGirth());
+                        SelectedCharacter.setPenisLengthGirth(playerComponent.getSwordLength(), playerComponent.getSwordGirth());
 
                         playerComponent.setDestroy(true);
                     }
@@ -74,15 +75,15 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
                 for (Entity player: game.getEngine().getEntities()) {
                     if (player.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
 
-                        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(player);
+                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(player);
 
-                        float length = playerComponent.getPenisLength();
-                        float girth = playerComponent.getPenisGirth();
+                        float length = playerComponent.getSwordLength();
+                        float girth = playerComponent.getSwordGirth();
 
-                        playerComponent.setPenisLength(length - (length/5));
-                        playerComponent.setPenisGirth(girth - (girth/5));
+                        playerComponent.setSwordLength(length - (length/5));
+                        playerComponent.setSwordGirth(girth - (girth/5));
 
-                        SelectedCharacter.setPenisLengthGirth(playerComponent.getPenisLength(), playerComponent.getPenisGirth());
+                        SelectedCharacter.setPenisLengthGirth(playerComponent.getSwordLength(), playerComponent.getSwordGirth());
 
                         playerComponent.setDestroy(true);
                     }
@@ -91,7 +92,7 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
             case SPEED_BOOST:
                 for (Entity enemy: game.getEngine().getEntities()) {
                     if (enemy.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
-                        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(enemy);
+                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(enemy);
 
                         playerComponent.setSpeed(playerComponent.getSpeed() * 2);
                     }
@@ -100,7 +101,7 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
             case SLOW_MO:
                 for (Entity enemy: game.getEngine().getEntities()) {
                     if (enemy.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
-                        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(enemy);
+                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(enemy);
 
                         playerComponent.setSpeed(playerComponent.getSpeed() / 2);
                     }
@@ -118,7 +119,7 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
     @Override
     public void destroy(Entity entity) {
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
-        PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
 
         powerUpComponent.setDestroy(false);
 

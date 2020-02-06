@@ -3,6 +3,7 @@ package com.wisekrakr.androidmain.levels;
 import com.badlogic.ashley.core.Entity;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.components.*;
+import com.wisekrakr.androidmain.components.objects.EnemyComponent;
 import com.wisekrakr.androidmain.factories.EntityFactory;
 import com.wisekrakr.androidmain.GameConstants;
 
@@ -53,7 +54,7 @@ public class LevelModel extends AbstractLevelContext{
         }else if (!SelectedCharacter.isDestroyed()){
             for (int i = 0; i < game.getEngine().getEntities().size(); i++){
                 if (game.getEngine().getEntities().get(i).getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
-                    if (game.getEngine().getEntities().get(i).getComponent(PlayerComponent.class).isMoving) {
+                    if (game.getEngine().getEntities().get(i).getComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).isMoving()) {
 
                         game.getGameThread().getTimeKeeper().time -= delta;
                         powerUpInitializer();
@@ -86,13 +87,13 @@ public class LevelModel extends AbstractLevelContext{
 
         for (Entity entity: game.getEngine().getEntities()){
             if (entity.getComponent(TypeComponent.class).getType() == TypeComponent.Type.ENEMY){
-                if (entity.getComponent(CollisionComponent.class).hitPenis && entity.getComponent(EnemyComponent.class).isDestroy()){
+                if (entity.getComponent(CollisionComponent.class).hitSword && entity.getComponent(EnemyComponent.class).isDestroy()){
                     ScoreKeeper.setPointsToGive(25);
                     ScoreKeeper.setScore(ScoreKeeper.getPointsToGive());
                 }
             }
             if (entity.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER){
-                if (entity.getComponent(CollisionComponent.class).hitPenis && entity.getComponent(PlayerComponent.class).isDestroy()){
+                if (entity.getComponent(CollisionComponent.class).hitSword && entity.getComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).isDestroy()){
                     ScoreKeeper.setPointsToGive(-50);
                     ScoreKeeper.setScore(ScoreKeeper.getPointsToGive());
                 }

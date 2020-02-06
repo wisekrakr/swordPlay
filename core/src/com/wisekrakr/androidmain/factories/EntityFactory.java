@@ -86,7 +86,7 @@ public class EntityFactory {
         engine.addEntity(entity);
     }
 
-    public void createEnemy(float x, float y, EntityStyle style, float penisLength, float penisGirth){
+    public void createEnemy(float x, float y, EntityStyle style, float swordLength, float swordGirth){
 
         Entity entity = engine.createEntity();
 
@@ -110,33 +110,32 @@ public class EntityFactory {
 
         List<Entity>entities = new ArrayList<Entity>();
 
-        Entity penis = createPenis(
+        Entity sword = createSword(
                 x, y,
                 bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                penisLength,penisGirth,
+                swordLength,swordGirth,
                 bodyComponent.body.getAngle(),
                 entity
         );
-        entities.add(penis);
+        entities.add(sword);
 
-        for (int i = 0; i < 2; i++){
-            Entity testicle = createTesticle(
-                    x - (i * GameConstants.TESTICLE_RADIUS),
-                    y - height/1.5f,
-                    bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                    GameConstants.TESTICLE_RADIUS,
-                    entity
-            );
+        Entity shield = createShield(
+                x -  GameConstants.SHIELD_RADIUS,
+                y - height/1.5f,
+                bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
+                GameConstants.SHIELD_RADIUS,
+                entity
+        );
 
-            entities.add(testicle);
-        }
+        entities.add(shield);
 
-        ComponentHelper.getComponentInitializer().enemyComponent(engine, entity, x, y, width, height, style, entities, penisLength, penisGirth);
+
+        ComponentHelper.getComponentInitializer().enemyComponent(engine, entity, x, y, width, height, style, entities, swordLength, swordGirth);
 
         engine.addEntity(entity);
     }
 
-    public void createPlayer(float x, float y, float width, float height, float penisLength, float penisGirth, EntityStyle style){
+    public void createPlayer(float x, float y, float width, float height, float swordLength, float swordGirth, EntityStyle style){
 
         Entity player = engine.createEntity();
 
@@ -156,29 +155,28 @@ public class EntityFactory {
 
         List<Entity>entities = new ArrayList<Entity>();
 
-        Entity penis = createPenis(
+        Entity sword = createSword(
                 x, y,
                 bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                penisLength,penisGirth,
+                swordLength,swordGirth,
                 bodyComponent.body.getAngle(),
                 player
         );
 
-        entities.add(penis);
+        entities.add(sword);
 
-        for (int i = 0; i < 2; i++){
-            Entity testicle = createTesticle(
-                    x - (i * GameConstants.TESTICLE_RADIUS),
-                    y - height/1.5f,
-                    bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                    GameConstants.TESTICLE_RADIUS,
-                    player
-            );
 
-            entities.add(testicle);
-        }
+        Entity shield = createShield(
+                x -  GameConstants.SHIELD_RADIUS,
+                y - height/1.5f,
+                bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
+                GameConstants.SHIELD_RADIUS,
+                player
+        );
 
-        ComponentHelper.getComponentInitializer().playerComponent(engine, player, x,y, width, height, entities, penisLength, penisGirth, style);
+        entities.add(shield);
+
+        ComponentHelper.getComponentInitializer().playerComponent(engine, player, x,y, width, height, entities, swordLength, swordGirth, style);
 
         engine.addEntity(player);
 
@@ -236,12 +234,12 @@ public class EntityFactory {
 
     }
 
-    private Entity createPenis(float x, float y, float velocityX, float velocityY, float length, float girth, float direction, Entity attachedEntity) {
+    private Entity createSword(float x, float y, float velocityX, float velocityY, float length, float girth, float direction, Entity attachedEntity) {
         Entity entity = engine.createEntity();
 
         Box2dBodyComponent bodyComponent = engine.createComponent(Box2dBodyComponent.class);
         ComponentHelper.getComponentInitializer().textureComponent(engine, entity);
-        ComponentHelper.getComponentInitializer().typeComponent(engine, entity, PENIS);
+        ComponentHelper.getComponentInitializer().typeComponent(engine, entity, SWORD);
         ComponentHelper.getComponentInitializer().collisionComponent(engine, entity);
         ComponentHelper.getComponentInitializer().transformComponent(engine,entity,x,y,direction);
 
@@ -253,7 +251,7 @@ public class EntityFactory {
 
         entity.add(bodyComponent);
 
-        ComponentHelper.getComponentInitializer().penisComponent(
+        ComponentHelper.getComponentInitializer().swordComponent(
                 engine,
                 entity,
                 attachedEntity,
@@ -264,7 +262,7 @@ public class EntityFactory {
 
         engine.addEntity(entity);
 
-        //Weld penis to attachedEntity
+        //Weld sword to attachedEntity
         WeldJointDef def = new WeldJointDef();
         def.bodyA = attachedEntity.getComponent(Box2dBodyComponent.class).body;
         def.bodyB = bodyComponent.body;
@@ -278,17 +276,17 @@ public class EntityFactory {
 
 
 
-    private Entity createTesticle(float x, float y, float velocityX, float velocityY, float radius,  Entity attachedEntity) {
+    private Entity createShield(float x, float y, float velocityX, float velocityY, float radius, Entity attachedEntity) {
         Entity entity = engine.createEntity();
 
         Box2dBodyComponent bodyComponent = engine.createComponent(Box2dBodyComponent.class);
         ComponentHelper.getComponentInitializer().textureComponent(engine, entity);
-        ComponentHelper.getComponentInitializer().typeComponent(engine, entity, TESTICLE);
+        ComponentHelper.getComponentInitializer().typeComponent(engine, entity, SHIELD);
         ComponentHelper.getComponentInitializer().transformComponent(engine,entity,x,y,0);
 
         bodyComponent.body = bodyFactory.makeCirclePolyBody(x, y, radius, BodyFactory.Material.RUBBER, BodyDef.BodyType.DynamicBody);
 
-        ComponentHelper.getComponentInitializer().testicleComponent(
+        ComponentHelper.getComponentInitializer().shieldComponent(
                 engine,
                 entity,
                 attachedEntity,

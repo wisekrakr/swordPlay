@@ -1,0 +1,98 @@
+package com.wisekrakr.androidmain.components.objects;
+
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
+import com.wisekrakr.androidmain.components.EntityStyle;
+import com.wisekrakr.androidmain.components.EntityStyleContext;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EnemyComponent extends GameObject implements  Pool.Poolable {
+
+    private Vector2 initialPosition = new Vector2();
+    private int bounces = 0;
+
+    public List<Vector2>initialPositions = new ArrayList<Vector2>();
+    public float chaseInterval = 0;
+    private float swordLength;
+    private float swordGirth;
+
+    private EntityStyle entityStyle = null;
+
+
+    public EntityStyleContext getEntityStyleContext() {
+        return entityStyleContext;
+    }
+
+    private EntityStyleContext entityStyleContext = new EntityStyleContext() {
+
+        @Override
+        public EntityStyle getEntityStyle() {
+            return entityStyle;
+        }
+
+        @Override
+        public void setEntityStyle(EntityStyle style) {
+            entityStyle = style;
+        }
+
+    };
+
+    public Vector2 getInitialPosition() {
+        return initialPosition;
+    }
+
+    public void setInitialPosition(Vector2 position) {
+        this.initialPosition = position;
+    }
+
+    public float getSwordLength() {
+        return swordLength;
+    }
+
+    public void setSwordLength(float swordLength) {
+        this.swordLength = swordLength;
+    }
+
+    public float getSwordGirth() {
+        return swordGirth;
+    }
+
+    public void setSwordGirth(float swordGirth) {
+        this.swordGirth = swordGirth;
+    }
+
+
+    public int getBounces() {
+        return bounces;
+    }
+
+    public void setBounces(int bounces) {
+        this.bounces = bounces;
+    }
+
+    @Override
+    public void reset() {
+        this.setPosition(new Vector2());
+        this.setVelocityX(0);
+        this.setVelocityY(0);
+
+        this.setWidth(0);
+        this.setHeight(0);
+        this.setDirection(0);
+
+        this.setSwordGirth(0);
+        this.setSwordLength(0);
+
+        this.setAttachedEntities(new ArrayList<Entity>());
+
+        initialPositions = new ArrayList<Vector2>();
+        chaseInterval = 0;
+        bounces = 0;
+
+        this.setDestroy(false);
+    }
+}

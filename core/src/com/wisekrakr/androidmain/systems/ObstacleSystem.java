@@ -6,7 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.components.Box2dBodyComponent;
-import com.wisekrakr.androidmain.components.ObstacleComponent;
+import com.wisekrakr.androidmain.components.objects.ObstacleComponent;
 
 public class ObstacleSystem extends IteratingSystem implements SystemEntityContext {
 

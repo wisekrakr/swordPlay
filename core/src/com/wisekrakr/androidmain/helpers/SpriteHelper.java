@@ -34,6 +34,7 @@ public class SpriteHelper {
             TextureAtlas atlas = myAssetManager.assetManager.get(atlasPath);
 
             region = atlas.findRegion(regionPath);
+
             Sprite sprite = new Sprite(region);
 
             float rotation = body.getAngle() * 180 / MathUtils.PI;
@@ -50,6 +51,10 @@ public class SpriteHelper {
         return region;
     }
 
+    public static void findCorrectRegion(String region){
 
+            System.out.println("region = " + region);
+
+    }
 
 }

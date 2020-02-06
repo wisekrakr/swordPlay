@@ -38,7 +38,7 @@ public class GameConstants {
     public static float PLAYER_HEIGHT = WORLD_WIDTH /20;
     public static float POWER_WIDTH = WORLD_WIDTH /60;
     public static float POWER_HEIGHT = WORLD_WIDTH /60;
-    public static float TESTICLE_RADIUS = WORLD_WIDTH /90;
+    public static float SHIELD_RADIUS = WORLD_WIDTH /50;
 
     /*
     Constants for speed. Scaled by world size

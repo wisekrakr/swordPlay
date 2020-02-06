@@ -31,7 +31,7 @@ public class TitleScreen extends ScreenAdapter {
     @Override
     public void show() {
 
-        title = new TextureRegion(new Texture("images/background/The Penis Mightier title card.jpg"));
+//        title = new TextureRegion(new Texture("images/background/"));
     }
 
 
@@ -45,7 +45,7 @@ public class TitleScreen extends ScreenAdapter {
         stage.draw();
 
         spriteBatch.begin();
-        spriteBatch.draw(title, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        spriteBatch.draw(title, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         spriteBatch.end();
 
         countDown += delta;

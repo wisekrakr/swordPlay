@@ -56,8 +56,8 @@ public class PlayScreen extends ScreenAdapter  {
 
         game.getEngine().addSystem(new PlayerSystem(game));
         game.getEngine().addSystem(new EnemySystem(game));
-        game.getEngine().addSystem(new PenisSystem(game));
-        game.getEngine().addSystem(new TesticleSystem(game));
+        game.getEngine().addSystem(new SwordSystem(game));
+        game.getEngine().addSystem(new ShieldSystem(game));
         game.getEngine().addSystem(new PowerUpSystem(game));
         game.getEngine().addSystem(new ObstacleSystem(game));
 
