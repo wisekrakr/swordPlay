@@ -12,16 +12,9 @@ import java.util.List;
 
 public class EnemyComponent extends GameObject implements  Pool.Poolable {
 
-    private Vector2 initialPosition = new Vector2();
     private int bounces = 0;
-
-    public List<Vector2>initialPositions = new ArrayList<Vector2>();
-    public float chaseInterval = 0;
-    private float swordLength;
-    private float swordGirth;
-
+    private float chaseInterval = 0;
     private EntityStyle entityStyle = null;
-
 
     public EntityStyleContext getEntityStyleContext() {
         return entityStyleContext;
@@ -41,30 +34,13 @@ public class EnemyComponent extends GameObject implements  Pool.Poolable {
 
     };
 
-    public Vector2 getInitialPosition() {
-        return initialPosition;
+    public float getChaseInterval() {
+        return chaseInterval;
     }
 
-    public void setInitialPosition(Vector2 position) {
-        this.initialPosition = position;
+    public void setChaseInterval(float chaseInterval) {
+        this.chaseInterval = chaseInterval;
     }
-
-    public float getSwordLength() {
-        return swordLength;
-    }
-
-    public void setSwordLength(float swordLength) {
-        this.swordLength = swordLength;
-    }
-
-    public float getSwordGirth() {
-        return swordGirth;
-    }
-
-    public void setSwordGirth(float swordGirth) {
-        this.swordGirth = swordGirth;
-    }
-
 
     public int getBounces() {
         return bounces;
@@ -84,12 +60,8 @@ public class EnemyComponent extends GameObject implements  Pool.Poolable {
         this.setHeight(0);
         this.setDirection(0);
 
-        this.setSwordGirth(0);
-        this.setSwordLength(0);
-
         this.setAttachedEntities(new ArrayList<Entity>());
 
-        initialPositions = new ArrayList<Vector2>();
         chaseInterval = 0;
         bounces = 0;
 

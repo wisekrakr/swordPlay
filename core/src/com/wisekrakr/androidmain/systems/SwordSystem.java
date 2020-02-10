@@ -28,8 +28,12 @@ public class SwordSystem extends IteratingSystem implements SystemEntityContext 
             collisionComponent.setHitPlayer(false);
         }
 
-        outOfBounds(entity);
-        bodyHandler(entity, bodyComponent);
+        try {
+            outOfBounds(entity);
+            bodyHandler(entity, bodyComponent);
+        }catch (Exception e){
+            System.out.println(this.getClass() + " "+ e);
+        }
     }
 
     @Override

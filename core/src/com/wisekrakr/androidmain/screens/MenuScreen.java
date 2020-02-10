@@ -2,7 +2,6 @@ package com.wisekrakr.androidmain.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -167,7 +166,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.WHITE_BALD);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.WHITE_BALD.getPenisLength(), EntityStyle.WHITE_BALD.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.WHITE_BALD.getSwordLength(), EntityStyle.WHITE_BALD.getSwordGirth());
                     whiteBaldButton.isChecked();
                     characterChosen = true;
                 }
@@ -176,7 +175,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.BLACK_BEARD);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.BLACK_BEARD.getPenisLength(), EntityStyle.BLACK_BEARD.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.BLACK_BEARD.getSwordLength(), EntityStyle.BLACK_BEARD.getSwordGirth());
                     blackBeardButton.isChecked();
                     characterChosen = true;
                 }
@@ -185,7 +184,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.BLACK_BLACKHAIR);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.BLACK_BLACKHAIR.getPenisLength(), EntityStyle.BLACK_BLACKHAIR.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.BLACK_BLACKHAIR.getSwordLength(), EntityStyle.BLACK_BLACKHAIR.getSwordGirth());
                     blackBlackHairButton.isChecked();
                     characterChosen = true;
                 }
@@ -194,7 +193,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.BLACK_GREYHAIR);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.BLACK_GREYHAIR.getPenisLength(), EntityStyle.BLACK_GREYHAIR.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.BLACK_GREYHAIR.getSwordLength(), EntityStyle.BLACK_GREYHAIR.getSwordGirth());
                     blackGreyHairButton.isChecked();
                     characterChosen = true;
                 }
@@ -203,7 +202,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.WHITE_BLACKHAIR);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.WHITE_BLACKHAIR.getPenisLength(), EntityStyle.WHITE_BLACKHAIR.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.WHITE_BLACKHAIR.getSwordLength(), EntityStyle.WHITE_BLACKHAIR.getSwordGirth());
                     whiteBlackHairButton.isChecked();
                     characterChosen = true;
                 }
@@ -212,7 +211,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.WHITE_BLONDHAIR);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.WHITE_BLONDHAIR.getPenisLength(), EntityStyle.WHITE_BLONDHAIR.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.WHITE_BLONDHAIR.getSwordLength(), EntityStyle.WHITE_BLONDHAIR.getSwordGirth());
                     whiteBlondHairButton.isChecked();
                     characterChosen = true;
                 }
@@ -221,7 +220,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.WHITE_BROWNHAIR);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.WHITE_BROWNHAIR.getPenisLength(), EntityStyle.WHITE_BROWNHAIR.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.WHITE_BROWNHAIR.getSwordLength(), EntityStyle.WHITE_BROWNHAIR.getSwordGirth());
                     whiteBrownHairButton.isChecked();
                     characterChosen = true;
                 }
@@ -230,7 +229,7 @@ public class MenuScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectedCharacter.setSelectedCharacter(EntityStyle.WHITE_REDHAIR);
-                    SelectedCharacter.setPenisLengthGirth(EntityStyle.WHITE_REDHAIR.getPenisLength(), EntityStyle.WHITE_REDHAIR.getPenisGirth());
+                    SelectedCharacter.setSwordLengthGirth(EntityStyle.WHITE_REDHAIR.getSwordLength(), EntityStyle.WHITE_REDHAIR.getSwordGirth());
                     whiteRedHairButton.isChecked();
                     characterChosen = true;
                 }

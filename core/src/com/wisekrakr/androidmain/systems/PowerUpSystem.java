@@ -35,8 +35,12 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
             }
         }
 
-        outOfBounds(entity);
-        bodyHandler(entity, bodyComponent);
+        try {
+            outOfBounds(entity);
+            bodyHandler(entity, bodyComponent);
+        }catch (Exception e){
+            System.out.println(this.getClass() + " "+ e);
+        }
     }
 
     @Override
@@ -54,41 +58,6 @@ public class PowerUpSystem extends IteratingSystem implements SystemEntityContex
         com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
 
         switch (PowerHelper.getPower()){
-            case ENLARGE_PLAYER:
-                for (Entity player: game.getEngine().getEntities()) {
-                    if (player.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
-                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(player);
-
-                        float length = playerComponent.getSwordLength();
-                        float girth = playerComponent.getSwordGirth();
-
-                        playerComponent.setSwordLength(length + (length/5));
-                        playerComponent.setSwordGirth(girth + (girth/5));
-
-                        SelectedCharacter.setPenisLengthGirth(playerComponent.getSwordLength(), playerComponent.getSwordGirth());
-
-                        playerComponent.setDestroy(true);
-                    }
-                }
-                break;
-            case REDUCE_PLAYER:
-                for (Entity player: game.getEngine().getEntities()) {
-                    if (player.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
-
-                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(player);
-
-                        float length = playerComponent.getSwordLength();
-                        float girth = playerComponent.getSwordGirth();
-
-                        playerComponent.setSwordLength(length - (length/5));
-                        playerComponent.setSwordGirth(girth - (girth/5));
-
-                        SelectedCharacter.setPenisLengthGirth(playerComponent.getSwordLength(), playerComponent.getSwordGirth());
-
-                        playerComponent.setDestroy(true);
-                    }
-                }
-                break;
             case SPEED_BOOST:
                 for (Entity enemy: game.getEngine().getEntities()) {
                     if (enemy.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {

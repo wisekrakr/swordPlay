@@ -166,69 +166,69 @@ public class Visualizer implements Disposable {
         shapeRenderer.end();
     }
 
-    public void debugDrawableLine(float delta){
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(renderingSystem.getCamera().combined);
-
-        drawTime += delta;
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-        for (Entity entity: game.getEngine().getEntities()) {
-            if (entity != null) {
-                TypeComponent typeComponent = ComponentMapper.getFor(TypeComponent.class).get(entity);
-                shapeRenderer.setColor(Color.CYAN);
-                switch (typeComponent.getType()) {
-                    case PLAYER:
-                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
-
-                        Vector2 position = playerComponent.getPosition();
-                        float angle = playerComponent.getDirection();
-                        float width = playerComponent.getWidth();
-                        float height = playerComponent.getHeight();
-
-                        shapeRenderer.rect(position.x - width/2, position.y - height/2, width, height);
-
-                        shapeRenderer.line(
-                                position.x - width * MathUtils.cos(angle), position.y - height * MathUtils.sin(angle),
-                                position.x - 20f * MathUtils.cos(angle), position.y - 20f * MathUtils.sin(angle)
-                        );
-                        break;
-                    case ENEMY:
-                        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
-
-                        float w = enemyComponent.getWidth();
-                        float h = enemyComponent.getHeight();
-
-                        shapeRenderer.rect(enemyComponent.getPosition().x - w/2, enemyComponent.getPosition().y - h/2,
-                                enemyComponent.getWidth(),enemyComponent.getHeight()
-                        );
-                        break;
-                    case OBSTACLE:
-                        ObstacleComponent obstacleComponent = game.getGameThread().getComponentMapperSystem().getObstacleComponentMapper().get(entity);
-
-                        shapeRenderer.rect(
-                                obstacleComponent.getPosition().x - obstacleComponent.getWidth()/2,
-                                obstacleComponent.getPosition().y - obstacleComponent.getHeight()/2,
-                                obstacleComponent.getWidth(), obstacleComponent.getHeight()
-                        );
-                        break;
-                    case POWER:
-                        com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
-
-                        shapeRenderer.rect(
-                                powerUpComponent.getPosition().x - powerUpComponent.getWidth()/2,
-                                powerUpComponent.getPosition().y - powerUpComponent.getHeight()/2,
-                                powerUpComponent.getWidth(), powerUpComponent.getHeight()
-                        );
-                        break;
-                    default:
-//                        System.out.println("No entity to draw line around");
-                }
-            }
-        }
-        shapeRenderer.end();
-    }
+//    public void debugDrawableLine(float delta){
+//        ShapeRenderer shapeRenderer = new ShapeRenderer();
+//        shapeRenderer.setProjectionMatrix(renderingSystem.getCamera().combined);
+//
+//        drawTime += delta;
+//
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//
+//        for (Entity entity: game.getEngine().getEntities()) {
+//            if (entity != null) {
+//                TypeComponent typeComponent = ComponentMapper.getFor(TypeComponent.class).get(entity);
+//                shapeRenderer.setColor(Color.CYAN);
+//                switch (typeComponent.getType()) {
+//                    case PLAYER:
+//                        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+//
+//                        Vector2 position = playerComponent.getPosition();
+//                        float angle = playerComponent.getDirection();
+//                        float width = playerComponent.getWidth();
+//                        float height = playerComponent.getHeight();
+//
+//                        shapeRenderer.rect(position.x - width/2, position.y - height/2, width, height);
+//
+//                        shapeRenderer.line(
+//                                position.x - width * MathUtils.cos(angle), position.y - height * MathUtils.sin(angle),
+//                                position.x - 20f * MathUtils.cos(angle), position.y - 20f * MathUtils.sin(angle)
+//                        );
+//                        break;
+//                    case ENEMY:
+//                        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+//
+//                        float w = enemyComponent.getWidth();
+//                        float h = enemyComponent.getHeight();
+//
+//                        shapeRenderer.rect(enemyComponent.getPosition().x - w/2, enemyComponent.getPosition().y - h/2,
+//                                enemyComponent.getWidth(),enemyComponent.getHeight()
+//                        );
+//                        break;
+//                    case OBSTACLE:
+//                        ObstacleComponent obstacleComponent = game.getGameThread().getComponentMapperSystem().getObstacleComponentMapper().get(entity);
+//
+//                        shapeRenderer.rect(
+//                                obstacleComponent.getPosition().x - obstacleComponent.getWidth()/2,
+//                                obstacleComponent.getPosition().y - obstacleComponent.getHeight()/2,
+//                                obstacleComponent.getWidth(), obstacleComponent.getHeight()
+//                        );
+//                        break;
+//                    case POWER:
+//                        com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+//
+//                        shapeRenderer.rect(
+//                                powerUpComponent.getPosition().x - powerUpComponent.getWidth()/2,
+//                                powerUpComponent.getPosition().y - powerUpComponent.getHeight()/2,
+//                                powerUpComponent.getWidth(), powerUpComponent.getHeight()
+//                        );
+//                        break;
+//                    default:
+////                        System.out.println("No entity to draw line around");
+//                }
+//            }
+//        }
+//        shapeRenderer.end();
+//    }
 
     @Override
     public void dispose() {

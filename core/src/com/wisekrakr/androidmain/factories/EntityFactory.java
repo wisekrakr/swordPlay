@@ -12,8 +12,10 @@ import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.PhysicalObjectContactListener;
 import com.wisekrakr.androidmain.components.Box2dBodyComponent;
 
-import com.wisekrakr.androidmain.components.EntityStyle;
+import com.wisekrakr.androidmain.components.objects.EnemyComponent;
+import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.helpers.ComponentHelper;
+import com.wisekrakr.androidmain.helpers.EntityStyleHelper;
 import com.wisekrakr.androidmain.helpers.PowerHelper;
 
 import java.util.ArrayList;
@@ -86,7 +88,7 @@ public class EntityFactory {
         engine.addEntity(entity);
     }
 
-    public void createEnemy(float x, float y, EntityStyle style, float swordLength, float swordGirth){
+    public void createEnemy(float x, float y){
 
         Entity entity = engine.createEntity();
 
@@ -98,6 +100,8 @@ public class EntityFactory {
         float width = GameConstants.PLAYER_WIDTH;
         float height = GameConstants.PLAYER_HEIGHT;
 
+        // Set up the body component
+
         bodyComponent.body = bodyFactory.makeBoxPolyBody(x, y, width, height, BodyFactory.Material.RUBBER, BodyDef.BodyType.DynamicBody);
 
         ComponentHelper.getComponentInitializer().transformComponent(engine, entity, x, y, bodyComponent.body.getAngle());
@@ -108,12 +112,24 @@ public class EntityFactory {
 
         entity.add(bodyComponent);
 
+        // Create an Enemy Component
+
+        EnemyComponent enemyComponent = engine.createComponent(EnemyComponent.class);
+        enemyComponent.getEntityStyleContext().setEntityStyle(EntityStyleHelper.randomEntityStyle());
+        enemyComponent.setWidth(width);
+        enemyComponent.setHeight(height);
+
+        entity.add(enemyComponent);
+
+        // Create a sword and a shield
+
         List<Entity>entities = new ArrayList<Entity>();
 
         Entity sword = createSword(
                 x, y,
                 bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                swordLength,swordGirth,
+                enemyComponent.getEntityStyleContext().getEntityStyle().getSwordLength(),
+                enemyComponent.getEntityStyleContext().getEntityStyle().getSwordGirth(),
                 bodyComponent.body.getAngle(),
                 entity
         );
@@ -129,13 +145,12 @@ public class EntityFactory {
 
         entities.add(shield);
 
-
-        ComponentHelper.getComponentInitializer().enemyComponent(engine, entity, x, y, width, height, style, entities, swordLength, swordGirth);
+        enemyComponent.setAttachedEntities(entities);
 
         engine.addEntity(entity);
     }
 
-    public void createPlayer(float x, float y, float width, float height, float swordLength, float swordGirth, EntityStyle style){
+    public void createPlayer(float x, float y){
 
         Entity player = engine.createEntity();
 
@@ -143,28 +158,44 @@ public class EntityFactory {
         ComponentHelper.getComponentInitializer().typeComponent(engine, player, PLAYER);
         ComponentHelper.getComponentInitializer().collisionComponent(engine, player);
 
+        // Set up the body component
+        float width = GameConstants.PLAYER_WIDTH;
+        float height = GameConstants.PLAYER_HEIGHT;
+
         bodyComponent.body = bodyFactory.makeBoxPolyBody(x, y, width, height, BodyFactory.Material.WOOD, BodyDef.BodyType.DynamicBody, true);
 
         ComponentHelper.getComponentInitializer().transformComponent(engine, player, x, y, bodyComponent.body.getAngle());
 
         bodyComponent.body.setBullet(true);
-
         bodyComponent.body.setUserData(player);
 
         player.add(bodyComponent);
+
+        // Set up the Player component
+
+        PlayerComponent playerComponent = engine.createComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class);
+
+        playerComponent.setPosition(new Vector2(x,y));
+        playerComponent.setWidth(width);
+        playerComponent.setHeight(height);
+        playerComponent.getEntityStyleContext().setEntityStyle(EntityStyleHelper.randomEntityStyle());
+
+        player.add(playerComponent);
+
+        // Attach a sword and shield to the player
 
         List<Entity>entities = new ArrayList<Entity>();
 
         Entity sword = createSword(
                 x, y,
                 bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                swordLength,swordGirth,
+                playerComponent.getEntityStyleContext().getEntityStyle().getSwordLength(),
+                playerComponent.getEntityStyleContext().getEntityStyle().getSwordGirth(),
                 bodyComponent.body.getAngle(),
                 player
         );
 
         entities.add(sword);
-
 
         Entity shield = createShield(
                 x -  GameConstants.SHIELD_RADIUS,
@@ -176,7 +207,7 @@ public class EntityFactory {
 
         entities.add(shield);
 
-        ComponentHelper.getComponentInitializer().playerComponent(engine, player, x,y, width, height, entities, swordLength, swordGirth, style);
+        playerComponent.setAttachedEntities(entities);
 
         engine.addEntity(player);
 

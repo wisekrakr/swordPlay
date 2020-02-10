@@ -49,6 +49,7 @@ public class MainGame extends Game {
 
 		gameThread = new GameThread(this);
 
+
 	}
 
 	public void changeScreen(int screen){

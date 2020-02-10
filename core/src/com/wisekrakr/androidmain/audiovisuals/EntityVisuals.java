@@ -28,16 +28,7 @@ public class EntityVisuals implements EntityVisualsContext {
                 com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
 
                 switch (PowerHelper.getPower()){
-                    case ENLARGE_PLAYER:
-                        drawObjectViaAtlas(entity, "images/powerups/powerups.atlas","enlarge",
-                                powerUpComponent.getWidth(), powerUpComponent.getHeight()
-                        );
-                        break;
-                    case REDUCE_PLAYER:
-                        drawObjectViaAtlas(entity, "images/powerups/powerups.atlas","reduce",
-                                powerUpComponent.getWidth(), powerUpComponent.getHeight()
-                        );
-                        break;
+
                     case SPEED_BOOST:
                         drawObjectViaAtlas(entity, "images/powerups/powerups.atlas","speedup",
                                 powerUpComponent.getWidth(), powerUpComponent.getHeight()

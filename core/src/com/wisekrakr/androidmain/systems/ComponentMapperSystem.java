@@ -2,6 +2,7 @@ package com.wisekrakr.androidmain.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.wisekrakr.androidmain.components.*;
+import com.wisekrakr.androidmain.components.objects.GameObject;
 import com.wisekrakr.androidmain.components.objects.ObstacleComponent;
 
 public class ComponentMapperSystem {
@@ -38,6 +39,10 @@ public class ComponentMapperSystem {
         swordComponentMapper = ComponentMapper.getFor(com.wisekrakr.androidmain.components.objects.SwordComponent.class);
         shieldComponentMapper = ComponentMapper.getFor(com.wisekrakr.androidmain.components.objects.ShieldComponent.class);
         objectComponentMapper = ComponentMapper.getFor(com.wisekrakr.androidmain.components.objects.GameObject.class);
+    }
+
+    public ComponentMapper<GameObject> getObjectComponentMapper() {
+        return objectComponentMapper;
     }
 
     public ComponentMapper<com.wisekrakr.androidmain.components.objects.EnemyComponent> getEnemyComponentMapper() {

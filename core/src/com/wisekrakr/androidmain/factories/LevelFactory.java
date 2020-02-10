@@ -3,7 +3,6 @@ package com.wisekrakr.androidmain.factories;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
-import com.wisekrakr.androidmain.helpers.EntityStyleHelper;
 import com.wisekrakr.androidmain.helpers.GameHelper;
 import com.wisekrakr.androidmain.levels.LevelNumber;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
@@ -21,16 +20,7 @@ public class LevelFactory {
 
     public void getLevel(LevelNumber levelNumber, EntityFactory entityFactory){
 
-        for (int i = 0; i < levelNumber.getValue(); i++) {
-            entityFactory.createEnemy(
-                    GameHelper.notFilledPosition(game).x,
-                    GameHelper.notFilledPosition(game).y,
-                    EntityStyleHelper.randomEntityStyle(),
-                    EntityStyleHelper.getStyle().getPenisLength(),
-                    EntityStyleHelper.getStyle().getPenisGirth()
-            );
-        }
-        ScoreKeeper.setInitialEnemies(levelNumber.getValue());
+
 
         switch (levelNumber){
 

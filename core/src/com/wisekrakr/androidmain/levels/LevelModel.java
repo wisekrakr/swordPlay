@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.components.*;
 import com.wisekrakr.androidmain.components.objects.EnemyComponent;
+import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.factories.EntityFactory;
 import com.wisekrakr.androidmain.GameConstants;
 
@@ -15,6 +16,9 @@ import com.wisekrakr.androidmain.helpers.PowerHelper;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 import com.wisekrakr.androidmain.retainers.SelectedCharacter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class LevelModel extends AbstractLevelContext{
 
@@ -22,11 +26,13 @@ public class LevelModel extends AbstractLevelContext{
     private EntityFactory entityFactory;
     private LevelFactory levelFactory;
     private float powerInitTime;
+    private Integer enemies;
 
     public LevelModel(MainGame game, EntityFactory entityFactory) {
         this.game = game;
         this.entityFactory = entityFactory;
         constantEntities();
+
         levelFactory = new LevelFactory(game);
     }
 
@@ -38,23 +44,35 @@ public class LevelModel extends AbstractLevelContext{
         entityFactory.createWalls(0,0, GameConstants.WORLD_WIDTH * 2, 1f);
     }
 
+    public void setEnemies(Integer enemies) {
+        this.enemies = enemies;
+    }
+
     @Override
     public void startLevel(int numberOfLevel) {
         spawnNewPlayer();
+        ScoreKeeper.setInitialEnemies(numberOfLevel);
+        enemies = 0;
         levelFactory.getLevel(LevelNumber.valueOf(numberOfLevel), entityFactory);
     }
 
     @Override
     public void updateLevel(int numberOfLevel, float delta) {
 
+//       When the player is destroyed but the player still has lives, spawn a new player
         if (SelectedCharacter.isDestroyed() && ScoreKeeper.lives > 0){
 
             spawnNewPlayer();
 
-        }else if (!SelectedCharacter.isDestroyed()){
-            for (int i = 0; i < game.getEngine().getEntities().size(); i++){
-                if (game.getEngine().getEntities().get(i).getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER) {
-                    if (game.getEngine().getEntities().get(i).getComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).isMoving()) {
+        }
+//        When the player is in the game
+        else if (!SelectedCharacter.isDestroyed()){
+
+            for(Entity ent: game.getEngine().getEntities()){
+                TypeComponent.Type type = ent.getComponent(TypeComponent.class).getType();
+
+                if(type == TypeComponent.Type.PLAYER){
+                    if (ent.getComponent(PlayerComponent.class).isMoving()) {
 
                         game.getGameThread().getTimeKeeper().time -= delta;
                         powerUpInitializer();
@@ -67,7 +85,21 @@ public class LevelModel extends AbstractLevelContext{
                     }
                 }
             }
-        }else {
+
+        //   Make sure the right amount of enemies keeps spawning in
+            if(enemies < ScoreKeeper.getInitialEnemies()){
+                for (int i = enemies; i < numberOfLevel; i++) {
+                    entityFactory.createEnemy(
+                            GameHelper.notFilledPosition(game).x,
+                            GameHelper.notFilledPosition(game).y
+                    );
+                }
+                enemies = ScoreKeeper.getInitialEnemies();
+                System.out.println("new enemy");
+            }
+        }
+//        When the player has no more lives, it is a game over
+        else {
             gameOver(numberOfLevel);
         }
         scoring();
@@ -76,10 +108,7 @@ public class LevelModel extends AbstractLevelContext{
     private void spawnNewPlayer(){
         SelectedCharacter.setDestroyed(false);
         entityFactory.createPlayer(
-                GameConstants.WORLD_WIDTH /2, GameConstants.WORLD_HEIGHT /2,
-                GameConstants.PLAYER_WIDTH, GameConstants.PLAYER_HEIGHT,
-                SelectedCharacter.getPenisLength(), SelectedCharacter.getPenisGirth(),
-                SelectedCharacter.getSelectedCharacterStyle()
+                GameConstants.WORLD_WIDTH /2, GameConstants.WORLD_HEIGHT /2
         );
     }
 

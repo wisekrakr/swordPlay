@@ -29,8 +29,12 @@ public class ObstacleSystem extends IteratingSystem implements SystemEntityConte
             bodyComponent.body.setLinearVelocity(obstacleComponent.getVelocityX(), obstacleComponent.getVelocityY());
         }
 
-        outOfBounds(entity);
-        bodyHandler(entity, bodyComponent);
+        try {
+            outOfBounds(entity);
+            bodyHandler(entity, bodyComponent);
+        }catch (Exception e){
+            System.out.println(this.getClass() + " "+ e);
+        }
     }
 
     @Override

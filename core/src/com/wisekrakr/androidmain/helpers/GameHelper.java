@@ -27,8 +27,8 @@ public class GameHelper {
 
     public static Vector2 randomPosition() {
 
-        return new Vector2(10 + randomGenerator.nextFloat() *  (GameConstants.WORLD_WIDTH - 20), //todo change
-                10 + randomGenerator.nextFloat() * (GameConstants.WORLD_HEIGHT - 20)
+        return new Vector2(20 + randomGenerator.nextFloat() * (GameConstants.WORLD_WIDTH - 20) , //todo change
+                20 + randomGenerator.nextFloat() * (GameConstants.WORLD_HEIGHT - 20)
         );
     }
 

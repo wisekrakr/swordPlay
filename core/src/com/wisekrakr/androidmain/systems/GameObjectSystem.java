@@ -27,12 +27,12 @@ public class GameObjectSystem extends IteratingSystem implements SystemEntityCon
 
     @Override
     public void bodyHandler(Entity entity, Box2dBodyComponent bodyComponent) {
-        com.wisekrakr.androidmain.components.objects.SwordComponent swordComponent = game.getGameThread().getComponentMapperSystem().getSwordComponentMapper().get(entity);
+        com.wisekrakr.androidmain.components.objects.GameObject objectComponent = game.getGameThread().getComponentMapperSystem().getObjectComponentMapper().get(entity);
 
-        swordComponent.setPosition(bodyComponent.body.getPosition());
-        swordComponent.setVelocityX(bodyComponent.body.getLinearVelocity().x);
-        swordComponent.setVelocityY(bodyComponent.body.getLinearVelocity().y);
-        swordComponent.setDirection(bodyComponent.body.getAngle());
+        objectComponent.setPosition(bodyComponent.body.getPosition());
+        objectComponent.setVelocityX(bodyComponent.body.getLinearVelocity().x);
+        objectComponent.setVelocityY(bodyComponent.body.getLinearVelocity().y);
+        objectComponent.setDirection(bodyComponent.body.getAngle());
 
     }
 

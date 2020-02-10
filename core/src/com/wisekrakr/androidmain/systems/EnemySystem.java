@@ -9,8 +9,10 @@ import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.components.*;
 import com.wisekrakr.androidmain.components.objects.EnemyComponent;
+import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.helpers.EntityStyleHelper;
 import com.wisekrakr.androidmain.helpers.GameHelper;
+import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,38 +21,37 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
 
     private MainGame game;
 
-    private List<Vector2>savedPositions = new ArrayList<Vector2>();
-
     public EnemySystem(MainGame game){
-        super(Family.all(com.wisekrakr.androidmain.components.objects.EnemyComponent.class).get());
-
+        super(Family.all(EnemyComponent.class).get());
         this.game = game;
+
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+        EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
         CollisionComponent collisionComponent = game.getGameThread().getComponentMapperSystem().getCollisionComponentMapper().get(entity);
 
-        savedPositions = enemyComponent.initialPositions;
-
         enemyComponent.setSpeed(EntityStyleHelper.getStyle().getSwordSpeed());
+
+
 
         for (Entity ent: game.getEngine().getEntities()){
             if (ent.getComponent(TypeComponent.class).getType()== TypeComponent.Type.PLAYER && enemyComponent.getPosition() != null){
 
-                float angle = GameHelper.angleBetween(enemyComponent.getPosition(), ent.getComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).getPosition());
+                float angle = GameHelper.angleBetween(enemyComponent.getPosition(), ent.getComponent(PlayerComponent.class).getPosition());
                 enemyComponent.setDirection(angle);
                 bodyComponent.body.setTransform(bodyComponent.body.getPosition(), angle);
 
-                if (enemyComponent.chaseInterval == 0){
-                    enemyComponent.chaseInterval = game.getGameThread().getTimeKeeper().gameClock;
+                if (enemyComponent.getChaseInterval() == 0){
+                    enemyComponent.setChaseInterval(game.getGameThread().getTimeKeeper().gameClock);
                 }
 
-                if (ent.getComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).isMoving()) {
-                    if (game.getGameThread().getTimeKeeper().gameClock - enemyComponent.chaseInterval > game.getGameThread().getTimeKeeper().getTimeToChase()) {
-                        enemyComponent.chaseInterval = game.getGameThread().getTimeKeeper().gameClock;
+                if (ent.getComponent(PlayerComponent.class).isMoving()) {
+
+                    if (game.getGameThread().getTimeKeeper().gameClock - enemyComponent.getChaseInterval() > game.getGameThread().getTimeKeeper().getTimeToChase()) {
+                        enemyComponent.setChaseInterval(game.getGameThread().getTimeKeeper().gameClock);
 
                         speedImpulse(enemyComponent, collisionComponent);
 
@@ -64,9 +65,6 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
             }
         }
 
-        float length = enemyComponent.getSwordLength();
-        float girth = enemyComponent.getSwordGirth();
-        EntityStyle style = enemyComponent.getEntityStyleContext().getEntityStyle();
 
         if (!enemyComponent.isDestroy()){
             swordHandler(entity);
@@ -75,7 +73,6 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
                 collisionComponent.setHitSword(false);
             }
         }else {
-            spawnEnemyAtPoint(style, length, girth);
             destroy(entity);
         }
 
@@ -86,13 +83,10 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
             System.out.println(this.getClass() + " "+ e);
         }
 
-
-//        System.out.println("enemy: " +enemyComponent.getAttachedEntities().size()); //todo remove
-
     }
 
     private void swordHandler(Entity entity){
-        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+        EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
         for (Entity ent: enemyComponent.getAttachedEntities()) {
@@ -100,13 +94,12 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
                     bodyComponent.body.getLinearVelocity().x,
                     bodyComponent.body.getLinearVelocity().y
             );
-
         }
     }
 
     @Override
     public void bodyHandler(Entity entity, Box2dBodyComponent bodyComponent) {
-        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+        EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
 
         enemyComponent.setPosition(bodyComponent.body.getPosition());
         enemyComponent.setVelocityX(bodyComponent.body.getLinearVelocity().x);
@@ -117,7 +110,7 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
     @Override
     public void destroy(Entity entity){
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
-        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+        EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
 
         enemyComponent.setDestroy(false);
 
@@ -128,11 +121,13 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
         enemyComponent.getAttachedEntities().clear();
 
         bodyComponent.isDead = true;
+
+        game.getGameThread().getLevelGenerationSystem().getLevelModel().setEnemies(ScoreKeeper.getInitialEnemies() - 1);
     }
 
     @Override
     public void outOfBounds(Entity entity){
-        com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
+        EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
 
         if (enemyComponent.getPosition().x - enemyComponent.getWidth()/2 > GameConstants.WORLD_WIDTH
                 ||  enemyComponent.getPosition().x + enemyComponent.getWidth()/2 < 0 ||
@@ -151,17 +146,6 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
                 }
             }
             collisionComponent.setHitSurface(false);
-        }
-    }
-
-    private void spawnEnemyAtPoint(EntityStyle style, float length, float girth){
-
-        for (int i = savedPositions.size(); i>0; i--) {
-            game.getGameThread().getEntityFactory().createEnemy(
-                    savedPositions.get(i-1).x,
-                    savedPositions.get(i-1).y,
-                    style, length, girth
-            );
         }
     }
 }

@@ -29,6 +29,7 @@ public class GameThread {
 
         init();
 
+
     }
 
     public void startNewLevelGeneration(){

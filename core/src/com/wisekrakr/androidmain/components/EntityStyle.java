@@ -20,11 +20,11 @@ public enum EntityStyle {
         swordSpeed = speed;
     }
 
-    public float getPenisLength() {
+    public float getSwordLength() {
         return swordLength;
     }
 
-    public float getPenisGirth() {
+    public float getSwordGirth() {
         return swordGirth;
     }
 

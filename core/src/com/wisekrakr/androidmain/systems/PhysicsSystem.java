@@ -20,7 +20,7 @@ public class PhysicsSystem extends IteratingSystem {
     private static float accumulator = 0f;
 
     private World world;
-    private Set<Entity> bodiesQueue;
+    private Set<Entity> gameObjects;
 
     private ComponentMapper<Box2dBodyComponent> box2dBodyComponentMapper = ComponentMapper.getFor(Box2dBodyComponent.class);
     private ComponentMapper<TransformComponent> transformComponentMapper = ComponentMapper.getFor(TransformComponent.class);
@@ -30,7 +30,7 @@ public class PhysicsSystem extends IteratingSystem {
         super(Family.all(Box2dBodyComponent.class, TransformComponent.class).get());
 
         this.world = world;
-        this.bodiesQueue = new HashSet<Entity>();
+        this.gameObjects = new HashSet<Entity>();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PhysicsSystem extends IteratingSystem {
             world.step(MAX_STEP_TIME, 2, 6);
             accumulator -= MAX_STEP_TIME;
 
-            for (Entity entity : bodiesQueue) {
+            for (Entity entity : gameObjects) {
                 TransformComponent transformComponent = transformComponentMapper.get(entity);
                 Box2dBodyComponent bodyComponent = box2dBodyComponentMapper.get(entity);
 
@@ -61,11 +61,11 @@ public class PhysicsSystem extends IteratingSystem {
                 }
             }
         }
-        bodiesQueue.clear();
+        gameObjects.clear();
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        bodiesQueue.add(entity);
+        gameObjects.add(entity);
     }
 }

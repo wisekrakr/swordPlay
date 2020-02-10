@@ -21,8 +21,12 @@ public class ShieldSystem extends IteratingSystem implements SystemEntityContext
     protected void processEntity(Entity entity, float deltaTime) {
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
-        outOfBounds(entity);
-        bodyHandler(entity, bodyComponent);
+        try {
+            outOfBounds(entity);
+            bodyHandler(entity, bodyComponent);
+        }catch (Exception e){
+            System.out.println(this.getClass() + " "+ e);
+        }
     }
 
     @Override

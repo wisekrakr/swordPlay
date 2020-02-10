@@ -15,10 +15,8 @@ public interface ComponentInitializer {
     void transformComponent(PooledEngine engine, Entity mainEntity, float x, float y, float rotation);
     void textureComponent(PooledEngine engine, Entity mainEntity);
     void obstacleComponent(PooledEngine engine, Entity mainEntity, float x, float y, float velocityX, float velocityY, float width, float height);
-    void playerComponent(PooledEngine engine, Entity mainEntity, float x, float y, float width, float height, List<Entity> attachedEntities, float swordLength, float swordGirth, EntityStyle entityStyle);
-    void enemyComponent(PooledEngine engine, Entity mainEntity, float initialX, float initialY, float width, float height, EntityStyle entityStyle, List<Entity> attachedEntities, float swordLength, float swordGirth);
     void powerUpComponent(PooledEngine engine, Entity mainEntity, float x, float y, float velocityX, float velocityY, float width, float height, PowerHelper.Power power);
-    void swordComponent(PooledEngine engine, Entity mainEntity, Entity attachedEntity, float velocityX, float velocityY, float length, float girth, float direction);
+    void swordComponent(PooledEngine engine, Entity mainEntity, Entity attachedEntity, float velocityX, float velocityY, float width, float height, float direction);
     void shieldComponent(PooledEngine engine, Entity mainEntity, Entity attachedEntity, float velocityX, float velocityY, float radius);
     void wallComponent(PooledEngine engine, Entity mainEntity, float x, float y, float width, float height);
 }

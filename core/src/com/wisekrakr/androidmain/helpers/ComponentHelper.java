@@ -53,26 +53,6 @@ public class ComponentHelper {
 
 
         @Override
-        public void enemyComponent(PooledEngine engine, Entity mainEntity, float initialX, float initialY, float width, float height, EntityStyle entityStyle, List<Entity> attachedEntities, float swordLength, float swordGirth) {
-            com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = engine.createComponent(com.wisekrakr.androidmain.components.objects.EnemyComponent.class);
-
-            enemyComponent.getEntityStyleContext().setEntityStyle(entityStyle);
-
-            enemyComponent.setWidth(width);
-            enemyComponent.setHeight(height);
-
-            enemyComponent.setInitialPosition(new Vector2(initialX, initialY));
-            enemyComponent.initialPositions.add(enemyComponent.getInitialPosition());
-
-            enemyComponent.setAttachedEntities(attachedEntities);
-            enemyComponent.setSwordLength(swordLength);
-            enemyComponent.setSwordGirth(swordGirth);
-
-            mainEntity.add(enemyComponent);
-        }
-
-
-        @Override
         public void obstacleComponent(PooledEngine engine, Entity mainEntity, float x, float y, float velocityX, float velocityY, float width, float height) {
             com.wisekrakr.androidmain.components.objects.ObstacleComponent obstacleComponent = engine.createComponent(ObstacleComponent.class);
 
@@ -100,11 +80,11 @@ public class ComponentHelper {
         }
 
         @Override
-        public void swordComponent(PooledEngine engine, Entity mainEntity, Entity attachedEntity, float velocityX, float velocityY, float length, float girth, float direction) {
+        public void swordComponent(PooledEngine engine, Entity mainEntity, Entity attachedEntity, float velocityX, float velocityY, float width, float height, float direction) {
             com.wisekrakr.androidmain.components.objects.SwordComponent swordComponent = engine.createComponent(com.wisekrakr.androidmain.components.objects.SwordComponent.class);
 
-            swordComponent.setWidth(length);
-            swordComponent.setHeight(girth);
+            swordComponent.setWidth(width);
+            swordComponent.setHeight(height);
             swordComponent.setDirection(direction);
             swordComponent.setVelocityX(velocityX);
             swordComponent.setVelocityY(velocityY);
@@ -126,21 +106,6 @@ public class ComponentHelper {
             mainEntity.add(shieldComponent);
         }
 
-        @Override
-        public void playerComponent(PooledEngine engine, Entity mainEntity, float x, float y, float width, float height, List<Entity> attachedEntities, float swordLength, float swordGirth, EntityStyle entityStyle) {
-            com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = engine.createComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class);
-
-            playerComponent.setPosition(new Vector2(x,y));
-            playerComponent.setWidth(width);
-            playerComponent.setHeight(height);
-            playerComponent.setAttachedEntities(attachedEntities);
-            playerComponent.setSwordLength(swordLength);
-            playerComponent.setSwordGirth(swordGirth);
-
-            playerComponent.getEntityStyleContext().setEntityStyle(entityStyle);
-
-            mainEntity.add(playerComponent);
-        }
 
 
         @Override

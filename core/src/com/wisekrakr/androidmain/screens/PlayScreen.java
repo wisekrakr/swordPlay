@@ -1,5 +1,6 @@
 package com.wisekrakr.androidmain.screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
+import com.wisekrakr.androidmain.components.TypeComponent;
+import com.wisekrakr.androidmain.components.objects.EnemyComponent;
 import com.wisekrakr.androidmain.controls.Controls;
 import com.wisekrakr.androidmain.helpers.GameHelper;
 import com.wisekrakr.androidmain.systems.*;
@@ -110,6 +113,7 @@ public class PlayScreen extends ScreenAdapter  {
                 game.getGameThread().getTimeKeeper(),
                 delta
         );
+
     }
 
 

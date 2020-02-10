@@ -37,10 +37,6 @@ public class EntityAudio implements EntityAudioContext {
                             addSound("sounds/powerup_extratime.wav");
                         }else if (PowerHelper.getPower() == PowerHelper.Power.SPEED_BOOST){
                             addSound("sounds/powerdown_moreballs.wav");
-                        }else if (PowerHelper.getPower() == PowerHelper.Power.ENLARGE_PLAYER){
-                            addSound("sounds/powerup_freeze.wav");
-                        }else if (PowerHelper.getPower() == PowerHelper.Power.REDUCE_PLAYER){
-                            addSound("sounds/powerup_freeze.wav");
                         }
                     }
                 }

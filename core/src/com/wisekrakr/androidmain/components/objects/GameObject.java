@@ -83,10 +83,6 @@ public abstract class GameObject implements Component {
         return speed;
     }
 
-
-
-
-
     public List<Entity> getAttachedEntities() {
         return attachedEntities;
     }
