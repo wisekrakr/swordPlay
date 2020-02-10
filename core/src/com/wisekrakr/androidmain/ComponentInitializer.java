@@ -14,9 +14,5 @@ public interface ComponentInitializer {
     void collisionComponent(PooledEngine engine, Entity mainEntity);
     void transformComponent(PooledEngine engine, Entity mainEntity, float x, float y, float rotation);
     void textureComponent(PooledEngine engine, Entity mainEntity);
-    void obstacleComponent(PooledEngine engine, Entity mainEntity, float x, float y, float velocityX, float velocityY, float width, float height);
     void powerUpComponent(PooledEngine engine, Entity mainEntity, float x, float y, float velocityX, float velocityY, float width, float height, PowerHelper.Power power);
-    void swordComponent(PooledEngine engine, Entity mainEntity, Entity attachedEntity, float velocityX, float velocityY, float width, float height, float direction);
-    void shieldComponent(PooledEngine engine, Entity mainEntity, Entity attachedEntity, float velocityX, float velocityY, float radius);
-    void wallComponent(PooledEngine engine, Entity mainEntity, float x, float y, float width, float height);
 }

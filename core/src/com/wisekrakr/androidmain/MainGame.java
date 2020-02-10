@@ -1,12 +1,8 @@
 package com.wisekrakr.androidmain;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.wisekrakr.androidmain.screens.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainGame extends Game {
 

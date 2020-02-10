@@ -3,10 +3,11 @@ package com.wisekrakr.androidmain.components.objects;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
 
 import java.util.List;
 
-public abstract class GameObject implements Component {
+public class GameObject implements Component, Pool.Poolable {
     private Vector2 position;
     private float velocityX;
     private float velocityY;
@@ -16,6 +17,20 @@ public abstract class GameObject implements Component {
     private float height;
     private float direction;
     private float speed;
+
+    @Override
+    public void reset() {
+        this.setPosition(new Vector2());
+        this.setVelocityX(0);
+        this.setVelocityY(0);
+
+        this.setWidth(0);
+        this.setHeight(0);
+        this.setDirection(0);
+
+        this.setDestroy(false);
+
+    }
 
 
     public Vector2 getPosition() {

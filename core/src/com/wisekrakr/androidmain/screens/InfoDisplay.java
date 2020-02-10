@@ -12,14 +12,12 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
-import com.wisekrakr.androidmain.components.objects.SwordComponent;
 import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.components.TypeComponent;
 import com.wisekrakr.androidmain.helpers.LabelHelper;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 import com.wisekrakr.androidmain.retainers.TimeKeeper;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,7 +126,7 @@ public class InfoDisplay implements Disposable {
             scoreCountLabel.setText(Integer.toString(ScoreKeeper.getScore()));
             scoreAdded();
 
-            levelNumberLabel.setText(Integer.toString(game.getGameThread().getLevelGenerationSystem().getMainLevel()));
+            levelNumberLabel.setText(Integer.toString(1));//todo Give right numbers
             enemyNumber();
 
             swordLength();
@@ -175,13 +173,13 @@ public class InfoDisplay implements Disposable {
 
                 for (Entity ent: playerComponent.getAttachedEntities()){
                     if (ent.getComponent(TypeComponent.class).getType() == TypeComponent.Type.SWORD) {
-                        SwordComponent swordComponent = game.getGameThread().getComponentMapperSystem().getSwordComponentMapper().get(ent);
-
-                        float length = swordComponent.getWidth();
-                        int inches = (int) (length / 2.54f);
-                        DecimalFormat inchFormat = new DecimalFormat("#.00");
-
-                        swordLengthLabel.setText(length + " cm /" + inchFormat.format(inches) + " in");
+//                        SwordComponent swordComponent = game.getGameThread().getComponentMapperSystem().getSwordComponentMapper().get(ent);
+//
+//                        float length = swordComponent.getWidth();
+//                        int inches = (int) (length / 2.54f);
+//                        DecimalFormat inchFormat = new DecimalFormat("#.00");
+//
+//                        swordLengthLabel.setText(length + " cm /" + inchFormat.format(inches) + " in");
                     }
                 }
             }

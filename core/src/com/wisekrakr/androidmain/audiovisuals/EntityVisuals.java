@@ -5,7 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.components.*;
-import com.wisekrakr.androidmain.components.objects.ObstacleComponent;
+import com.wisekrakr.androidmain.components.objects.EnemyComponent;
+import com.wisekrakr.androidmain.components.objects.GameObject;
 import com.wisekrakr.androidmain.helpers.PowerHelper;
 import com.wisekrakr.androidmain.helpers.SpriteHelper;
 
@@ -47,7 +48,7 @@ public class EntityVisuals implements EntityVisualsContext {
                 }
 
             }else if (type == TypeComponent.Type.OBSTACLE){
-                ObstacleComponent obstacleComponent = game.getGameThread().getComponentMapperSystem().getObstacleComponentMapper().get(entity);
+                GameObject obstacleComponent = game.getGameThread().getComponentMapperSystem().getObjectComponentMapper().get(entity);
 
                 drawObjectViaAtlas(entity, "images/others/others.atlas", "platform",
                         obstacleComponent.getWidth(), obstacleComponent.getHeight()
@@ -56,9 +57,7 @@ public class EntityVisuals implements EntityVisualsContext {
             }
 
             if (type == TypeComponent.Type.ENEMY || type == TypeComponent.Type.PLAYER) {
-                com.wisekrakr.androidmain.components.objects.EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
-
-
+                EnemyComponent enemyComponent = game.getGameThread().getComponentMapperSystem().getEnemyComponentMapper().get(entity);
 
                 switch (enemyComponent.getEntityStyleContext().getEntityStyle()) {
                     case WHITE_REDHAIR:
@@ -134,7 +133,7 @@ public class EntityVisuals implements EntityVisualsContext {
 
             }
         }catch (Exception e){
-            System.out.println(this.getClass()  + " " +  e);
+//            System.out.println(this.getClass()  + " " +  e);
         }
 
 
@@ -157,28 +156,7 @@ public class EntityVisuals implements EntityVisualsContext {
         }
     }
 
-    private boolean entityTester(Entity entity){
 
-        return entity != null;
-    }
 
-    private void addSwordAndShield(Entity ent, String regionPathPenis, String regionPathTesticle){
 
-        if (ent.getComponent(TypeComponent.class).getType() == TypeComponent.Type.SWORD) {
-            com.wisekrakr.androidmain.components.objects.SwordComponent swordComponent = game.getGameThread().getComponentMapperSystem().getSwordComponentMapper().get(ent);
-
-//            drawObjectViaAtlas(ent,
-//                    "images/swordsandshields/swordsandshields.atlas", regionPathPenis,
-//                    swordComponent.getLength(), swordComponent.getGirth()
-//            );
-        }else if (ent.getComponent(TypeComponent.class).getType() == TypeComponent.Type.SHIELD){
-            com.wisekrakr.androidmain.components.objects.ShieldComponent shieldComponent = game.getGameThread().getComponentMapperSystem().getShieldComponentMapper().get(ent);
-
-//            drawObjectViaAtlas(ent,
-//                    "images/swordsandshields/swordsandshields.atlas", regionPathTesticle,
-//                    shieldComponent.getRadius(), shieldComponent.getRadius()
-//            );
-        }
-
-    }
 }

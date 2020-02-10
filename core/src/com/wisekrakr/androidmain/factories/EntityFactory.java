@@ -13,6 +13,7 @@ import com.wisekrakr.androidmain.PhysicalObjectContactListener;
 import com.wisekrakr.androidmain.components.Box2dBodyComponent;
 
 import com.wisekrakr.androidmain.components.objects.EnemyComponent;
+import com.wisekrakr.androidmain.components.objects.GameObject;
 import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.helpers.ComponentHelper;
 import com.wisekrakr.androidmain.helpers.EntityStyleHelper;
@@ -30,36 +31,34 @@ import static com.wisekrakr.androidmain.components.TypeComponent.Type.*;
 public class EntityFactory {
 
     private BodyFactory bodyFactory;
-    public World world;
     private MainGame game;
     private PooledEngine engine;
+    private World world;
+
     /**
      * @param game Class that extends Game
-     * @param pooledEngine Game engine. All entities are placed in here.
+     * @param world
+     *
      */
-    public EntityFactory(MainGame game, PooledEngine pooledEngine){
+    public EntityFactory(MainGame game, World world){
         this.game = game;
-        this.engine = pooledEngine;
+        this.world = world;
+        engine = game.getEngine();
 
-        world = new World(new Vector2(0,0), true);
-        world.setContactListener(new PhysicalObjectContactListener());
 
         bodyFactory = BodyFactory.getBodyFactoryInstance(world);
     }
 
     /**FOR ALL ENTITIES CREATED BELOW:
-     *
-     * @param x placement on x-axis
+     *  @param x placement on x-axis
      * @param y placement on y-axis
      * @param velocityX velocity on x-axis
      * @param velocityY velocity on y-axis
      * @param width width of the body
      * @param height height of the body
-     * @param material friction/restitution etc.
-     * @param bodyType static/dynamic/kinematic
      */
 
-    public void createObstacle(float x, float y, float velocityX, float velocityY, float width, float height, BodyFactory.Material material, BodyDef.BodyType bodyType){
+    public void createObstacle(float x, float y, float velocityX, float velocityY, float width, float height){
         Entity entity = engine.createEntity();
 
         Box2dBodyComponent bodyComponent = engine.createComponent(Box2dBodyComponent.class);
@@ -68,18 +67,13 @@ public class EntityFactory {
         ComponentHelper.getComponentInitializer().transformComponent(engine, entity, x, y, 0);
         ComponentHelper.getComponentInitializer().collisionComponent(engine, entity);
 
-        bodyComponent.body = bodyFactory.makeBoxPolyBody(x, y, width, height, material, bodyType);
+        bodyComponent.body = bodyFactory.makeBoxPolyBody(x, y, width, height, BodyFactory.Material.RUBBER, BodyDef.BodyType.KinematicBody);
         bodyComponent.body.setLinearVelocity(velocityX, velocityY);
 
-        ComponentHelper.getComponentInitializer().obstacleComponent(
-                engine,
-                entity,
-                x, y,
-                velocityX, velocityY,
-                width, height
-        );
-
-
+        GameObject obstacle = engine.createComponent(GameObject.class);
+        obstacle.setPosition(new Vector2(x,y));
+        obstacle.setWidth(width);
+        obstacle.setHeight(height);
 
         bodyComponent.body.setUserData(entity);
 
@@ -129,10 +123,8 @@ public class EntityFactory {
 
         Entity sword = createSword(
                 x, y,
-                bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
                 enemyComponent.getEntityStyleContext().getEntityStyle().getSwordLength(),
                 enemyComponent.getEntityStyleContext().getEntityStyle().getSwordGirth(),
-                bodyComponent.body.getAngle(),
                 entity
         );
         entities.add(sword);
@@ -140,8 +132,6 @@ public class EntityFactory {
         Entity shield = createShield(
                 x -  GameConstants.SHIELD_RADIUS,
                 y - height/1.5f,
-                bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                GameConstants.SHIELD_RADIUS,
                 entity
         );
 
@@ -175,7 +165,7 @@ public class EntityFactory {
 
         // Set up the Player component
 
-        PlayerComponent playerComponent = engine.createComponent(com.wisekrakr.androidmain.components.objects.PlayerComponent.class);
+        PlayerComponent playerComponent = engine.createComponent(PlayerComponent.class);
 
         playerComponent.setPosition(new Vector2(x,y));
         playerComponent.setWidth(width);
@@ -190,10 +180,8 @@ public class EntityFactory {
 
         Entity sword = createSword(
                 x, y,
-                bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
                 playerComponent.getEntityStyleContext().getEntityStyle().getSwordLength(),
                 playerComponent.getEntityStyleContext().getEntityStyle().getSwordGirth(),
-                bodyComponent.body.getAngle(),
                 player
         );
 
@@ -202,8 +190,6 @@ public class EntityFactory {
         Entity shield = createShield(
                 x -  GameConstants.SHIELD_RADIUS,
                 y - height/1.5f,
-                bodyComponent.body.getLinearVelocity().x, bodyComponent.body.getLinearVelocity().y,
-                GameConstants.SHIELD_RADIUS,
                 player
         );
 
@@ -225,12 +211,10 @@ public class EntityFactory {
 
         bodyComponent.body = bodyFactory.makeBoxPolyBody(x, y, width, height, BodyFactory.Material.STEEL, BodyDef.BodyType.StaticBody);
 
-        ComponentHelper.getComponentInitializer().wallComponent(
-                engine,
-                entity,
-                x,y,
-                width, height
-        );
+        GameObject wall = engine.createComponent(GameObject.class);
+        wall.setPosition((new Vector2(x,y)));
+        wall.setWidth(width);
+        wall.setHeight(height);
 
         bodyComponent.body.setUserData(entity);
 
@@ -267,14 +251,14 @@ public class EntityFactory {
 
     }
 
-    private Entity createSword(float x, float y, float velocityX, float velocityY, float length, float girth, float direction, Entity attachedEntity) {
+    private Entity createSword(float x, float y, float length, float girth, Entity attachedEntity) {
         Entity entity = engine.createEntity();
 
         Box2dBodyComponent bodyComponent = engine.createComponent(Box2dBodyComponent.class);
         ComponentHelper.getComponentInitializer().textureComponent(engine, entity);
         ComponentHelper.getComponentInitializer().typeComponent(engine, entity, SWORD);
         ComponentHelper.getComponentInitializer().collisionComponent(engine, entity);
-        ComponentHelper.getComponentInitializer().transformComponent(engine,entity,x,y,direction);
+        ComponentHelper.getComponentInitializer().transformComponent(engine,entity,x,y,0);//todo change to direction of attached
 
         bodyComponent.body = bodyFactory.makeBoxPolyBody(x, y, length, girth, BodyFactory.Material.WOOD, BodyDef.BodyType.DynamicBody);
 
@@ -284,14 +268,13 @@ public class EntityFactory {
 
         entity.add(bodyComponent);
 
-        ComponentHelper.getComponentInitializer().swordComponent(
-                engine,
-                entity,
-                attachedEntity,
-                velocityX, velocityY,
-                length, girth,
-                direction
-        );
+        GameObject sword = engine.createComponent(GameObject.class);
+
+        sword.setWidth(length);
+        sword.setHeight(girth);
+        ArrayList<Entity>list = new ArrayList<Entity>();
+        list.add(attachedEntity);
+        sword.setAttachedEntities(list);
 
         engine.addEntity(entity);
 
@@ -307,9 +290,7 @@ public class EntityFactory {
         return entity;
     }
 
-
-
-    private Entity createShield(float x, float y, float velocityX, float velocityY, float radius, Entity attachedEntity) {
+    private Entity createShield(float x, float y, Entity attachedEntity) {
         Entity entity = engine.createEntity();
 
         Box2dBodyComponent bodyComponent = engine.createComponent(Box2dBodyComponent.class);
@@ -317,19 +298,20 @@ public class EntityFactory {
         ComponentHelper.getComponentInitializer().typeComponent(engine, entity, SHIELD);
         ComponentHelper.getComponentInitializer().transformComponent(engine,entity,x,y,0);
 
-        bodyComponent.body = bodyFactory.makeCirclePolyBody(x, y, radius, BodyFactory.Material.RUBBER, BodyDef.BodyType.DynamicBody);
-
-        ComponentHelper.getComponentInitializer().shieldComponent(
-                engine,
-                entity,
-                attachedEntity,
-                velocityX, velocityY,
-                radius
-        );
+        bodyComponent.body = bodyFactory.makeCirclePolyBody(x, y, GameConstants.SHIELD_RADIUS, BodyFactory.Material.RUBBER, BodyDef.BodyType.DynamicBody);
 
         bodyComponent.body.setUserData(entity);
 
         entity.add(bodyComponent);
+
+        GameObject shield = engine.createComponent(GameObject.class);
+
+        shield.setPosition(new Vector2(x,y));
+        shield.setWidth(GameConstants.SHIELD_RADIUS);
+        shield.setHeight(GameConstants.SHIELD_RADIUS);
+        ArrayList<Entity>list = new ArrayList<Entity>();
+        list.add(attachedEntity);
+        shield.setAttachedEntities(list);
 
         engine.addEntity(entity);
 
@@ -337,7 +319,7 @@ public class EntityFactory {
         def.bodyA = attachedEntity.getComponent(Box2dBodyComponent.class).body;
         def.bodyB = bodyComponent.body;
         def.localAnchorA.set(0,-GameConstants.PLAYER_HEIGHT/1.5f);
-        def.localAnchorB.set(radius/2, 0);
+        def.localAnchorB.set(GameConstants.SHIELD_RADIUS/2, 0);
 
         world.createJoint(def);
 

@@ -1,6 +1,5 @@
 package com.wisekrakr.androidmain.screens;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
@@ -8,10 +7,9 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.wisekrakr.androidmain.LevelGenerationSystem;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.GameConstants;
-import com.wisekrakr.androidmain.components.TypeComponent;
-import com.wisekrakr.androidmain.components.objects.EnemyComponent;
 import com.wisekrakr.androidmain.controls.Controls;
 import com.wisekrakr.androidmain.helpers.GameHelper;
 import com.wisekrakr.androidmain.systems.*;
@@ -27,6 +25,7 @@ public class PlayScreen extends ScreenAdapter  {
     private Controls controls;
 
     private MainGame game;
+    private LevelGenerationSystem levelGenerationSystem;
 
     private Visualizer visualizer;
     private InfoDisplay infoDisplay;
@@ -44,6 +43,7 @@ public class PlayScreen extends ScreenAdapter  {
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(controls);
 
+
         infoDisplay = new InfoDisplay(game);
 
 //        entityAudio = new EntityAudio(game);
@@ -54,15 +54,13 @@ public class PlayScreen extends ScreenAdapter  {
      * Add remaining systems we did not need to add to GameThread.
      */
     private void addSystems() {
-
-        game.getGameThread().getLevelGenerationSystem().init();
+        levelGenerationSystem = new LevelGenerationSystem(game);
+        levelGenerationSystem.init();
 
         game.getEngine().addSystem(new PlayerSystem(game));
         game.getEngine().addSystem(new EnemySystem(game));
-        game.getEngine().addSystem(new SwordSystem(game));
-        game.getEngine().addSystem(new ShieldSystem(game));
+        game.getEngine().addSystem(new GameObjectSystem(game));
         game.getEngine().addSystem(new PowerUpSystem(game));
-        game.getEngine().addSystem(new ObstacleSystem(game));
 
         visualizer = new Visualizer(game);
         controls = new Controls();
@@ -97,14 +95,12 @@ public class PlayScreen extends ScreenAdapter  {
         game.getEngine().update(delta);
         visualizer.getRenderingSystem().getCamera().update();
 
-        game.getGameThread().getLevelGenerationSystem().updateLevels(delta);
-
-
+        levelGenerationSystem.updateLevels(delta);
 
 //        visualizer.debugDrawableFilled();
 //        visualizer.debugDrawableLine(delta);
 
-        visualizer.draw(delta);
+        visualizer.draw();
 
 //        entityAudio.audioForAction(controls);
 //        entityAudio.audioForEntity();

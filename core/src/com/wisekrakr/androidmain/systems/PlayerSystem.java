@@ -47,7 +47,7 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
     }
 
     private void swordHandler(Entity entity){
-        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
         for (Entity ent: playerComponent.getAttachedEntities()){
@@ -60,7 +60,7 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
 
     @Override
     public void bodyHandler(Entity entity, Box2dBodyComponent bodyComponent) {
-        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
 
         playerComponent.setPosition(bodyComponent.body.getPosition());
         playerComponent.setVelocityX(bodyComponent.body.getLinearVelocity().x);
@@ -70,7 +70,7 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
 
     @Override
     public void destroy(Entity entity) {
-        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
         SelectedCharacter.setDestroyed(true); //In LevelModel this is set to false again.

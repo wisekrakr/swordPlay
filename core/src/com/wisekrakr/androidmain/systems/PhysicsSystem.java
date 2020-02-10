@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.wisekrakr.androidmain.PhysicalObjectContactListener;
 import com.wisekrakr.androidmain.components.Box2dBodyComponent;
 import com.wisekrakr.androidmain.components.TransformComponent;
 import com.wisekrakr.androidmain.components.TypeComponent;
@@ -26,11 +27,17 @@ public class PhysicsSystem extends IteratingSystem {
     private ComponentMapper<TransformComponent> transformComponentMapper = ComponentMapper.getFor(TransformComponent.class);
 
     @SuppressWarnings("unchecked")
-    public PhysicsSystem(World world) {
+    public PhysicsSystem() {
         super(Family.all(Box2dBodyComponent.class, TransformComponent.class).get());
 
-        this.world = world;
-        this.gameObjects = new HashSet<Entity>();
+        world = new World(new Vector2(0,0), true);
+        world.setContactListener(new PhysicalObjectContactListener());
+
+        gameObjects = new HashSet<Entity>();
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     @Override

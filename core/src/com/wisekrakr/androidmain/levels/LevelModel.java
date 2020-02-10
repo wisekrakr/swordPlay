@@ -15,29 +15,30 @@ import com.wisekrakr.androidmain.helpers.GameHelper;
 import com.wisekrakr.androidmain.helpers.PowerHelper;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 import com.wisekrakr.androidmain.retainers.SelectedCharacter;
+import com.wisekrakr.androidmain.systems.PhysicsSystem;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 
 public class LevelModel extends AbstractLevelContext{
 
     private MainGame game;
-    private EntityFactory entityFactory;
+
     private LevelFactory levelFactory;
+    private EntityFactory entityFactory;
     private float powerInitTime;
     private Integer enemies;
 
-    public LevelModel(MainGame game, EntityFactory entityFactory) {
+    public LevelModel(MainGame game) {
         this.game = game;
-        this.entityFactory = entityFactory;
-        constantEntities();
 
-        levelFactory = new LevelFactory(game);
+        entityFactory = new EntityFactory(game, game.getGameThread().getPhysicsSystem().getWorld());
+        levelFactory = new LevelFactory(game, entityFactory);
+
     }
 
-    private void constantEntities(){
+//    4 walls as game objects (todo: closing in after some time?)
+    private void createGameBorders(){
 
         entityFactory.createWalls(0,0, 1f, GameConstants.WORLD_HEIGHT *2);
         entityFactory.createWalls(GameConstants.WORLD_WIDTH,0, 1f, GameConstants.WORLD_HEIGHT *2);
@@ -51,10 +52,11 @@ public class LevelModel extends AbstractLevelContext{
 
     @Override
     public void startLevel(int numberOfLevel) {
+        createGameBorders();
         spawnNewPlayer();
         ScoreKeeper.setInitialEnemies(numberOfLevel);
-        enemies = 0;
-        levelFactory.getLevel(LevelNumber.valueOf(numberOfLevel), entityFactory);
+        setEnemies(0);
+        levelFactory.getLevel(LevelNumber.valueOf(numberOfLevel));
     }
 
     @Override

@@ -6,14 +6,13 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.components.Box2dBodyComponent;
-import com.wisekrakr.androidmain.components.CollisionComponent;
-import com.wisekrakr.androidmain.components.objects.SwordComponent;
+import com.wisekrakr.androidmain.components.objects.GameObject;
 
 public class GameObjectSystem extends IteratingSystem implements SystemEntityContext {
     private MainGame game;
 
     public GameObjectSystem(MainGame game) {
-        super(Family.all(com.wisekrakr.androidmain.components.objects.GameObject.class).get());
+        super(Family.all(GameObject.class).get());
         this.game = game;
     }
 
@@ -21,13 +20,17 @@ public class GameObjectSystem extends IteratingSystem implements SystemEntityCon
     protected void processEntity(Entity entity, float deltaTime) {
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
-        outOfBounds(entity);
-        bodyHandler(entity, bodyComponent);
+        try {
+            outOfBounds(entity);
+            bodyHandler(entity, bodyComponent);
+        }catch (Exception e){
+            System.out.println(this.getClass() + " "+ e);
+        }
     }
 
     @Override
     public void bodyHandler(Entity entity, Box2dBodyComponent bodyComponent) {
-        com.wisekrakr.androidmain.components.objects.GameObject objectComponent = game.getGameThread().getComponentMapperSystem().getObjectComponentMapper().get(entity);
+        GameObject objectComponent = game.getGameThread().getComponentMapperSystem().getObjectComponentMapper().get(entity);
 
         objectComponent.setPosition(bodyComponent.body.getPosition());
         objectComponent.setVelocityX(bodyComponent.body.getLinearVelocity().x);
@@ -45,15 +48,15 @@ public class GameObjectSystem extends IteratingSystem implements SystemEntityCon
 
     @Override
     public void outOfBounds(Entity entity) {
-        SwordComponent swordComponent = game.getGameThread().getComponentMapperSystem().getSwordComponentMapper().get(entity);
+        GameObject gameObjectComponent = game.getGameThread().getComponentMapperSystem().getObjectComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
-        if (swordComponent.getPosition().x + swordComponent.getWidth()/2 > GameConstants.WORLD_WIDTH ||
-                swordComponent.getPosition().x - swordComponent.getWidth()/2 < 0){
-            bodyComponent.body.setLinearVelocity(-swordComponent.getVelocityX(), swordComponent.getVelocityY());
-        }else if (swordComponent.getPosition().y + swordComponent.getHeight()/2 > GameConstants.WORLD_HEIGHT ||
-                swordComponent.getPosition().y - swordComponent.getHeight()/2 < 0){
-            bodyComponent.body.setLinearVelocity(swordComponent.getVelocityX(), -swordComponent.getVelocityY());
+        if (gameObjectComponent.getPosition().x + gameObjectComponent.getWidth()/2 > GameConstants.WORLD_WIDTH ||
+                gameObjectComponent.getPosition().x - gameObjectComponent.getWidth()/2 < 0){
+            bodyComponent.body.setLinearVelocity(-gameObjectComponent.getVelocityX(), gameObjectComponent.getVelocityY());
+        }else if (gameObjectComponent.getPosition().y + gameObjectComponent.getHeight()/2 > GameConstants.WORLD_HEIGHT ||
+                gameObjectComponent.getPosition().y - gameObjectComponent.getHeight()/2 < 0){
+            bodyComponent.body.setLinearVelocity(gameObjectComponent.getVelocityX(), -gameObjectComponent.getVelocityY());
         }
     }
 }

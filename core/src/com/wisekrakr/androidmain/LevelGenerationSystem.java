@@ -1,6 +1,5 @@
 package com.wisekrakr.androidmain;
 
-import com.wisekrakr.androidmain.factories.EntityFactory;
 import com.wisekrakr.androidmain.helpers.GameHelper;
 import com.wisekrakr.androidmain.levels.LevelModel;
 import com.wisekrakr.androidmain.levels.LevelNumber;
@@ -13,7 +12,6 @@ import java.util.List;
 
 public class LevelGenerationSystem {
     private MainGame game;
-    private EntityFactory entityFactory;
     private LevelModel levelModel;
 
     public enum State{
@@ -25,11 +23,10 @@ public class LevelGenerationSystem {
     private List<LevelNumber> levelCompleted = new ArrayList<LevelNumber>();
     private int mainLevel = 1;
 
-    public LevelGenerationSystem(MainGame game, EntityFactory entityFactory){
+    public LevelGenerationSystem(MainGame game){
         this.game = game;
-        this.entityFactory = entityFactory;
 
-        levelModel = new LevelModel(game, entityFactory);
+        levelModel = new LevelModel(game);
 
         levelsToDo.addAll(Arrays.asList(LevelNumber.values()));
     }
