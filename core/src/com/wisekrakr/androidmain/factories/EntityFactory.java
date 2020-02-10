@@ -115,6 +115,8 @@ public class EntityFactory {
         // Create an Enemy Component
 
         EnemyComponent enemyComponent = engine.createComponent(EnemyComponent.class);
+
+        enemyComponent.setPosition(new Vector2(x,y));
         enemyComponent.getEntityStyleContext().setEntityStyle(EntityStyleHelper.randomEntityStyle());
         enemyComponent.setWidth(width);
         enemyComponent.setHeight(height);

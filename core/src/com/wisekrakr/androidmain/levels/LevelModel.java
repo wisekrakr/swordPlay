@@ -17,6 +17,7 @@ import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 import com.wisekrakr.androidmain.retainers.SelectedCharacter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -67,8 +68,10 @@ public class LevelModel extends AbstractLevelContext{
         }
 //        When the player is in the game
         else if (!SelectedCharacter.isDestroyed()){
+            Iterator<Entity>iterator = game.getEngine().getEntities().iterator();
 
-            for(Entity ent: game.getEngine().getEntities()){
+            if(iterator.hasNext()){
+                Entity ent = iterator.next();
                 TypeComponent.Type type = ent.getComponent(TypeComponent.class).getType();
 
                 if(type == TypeComponent.Type.PLAYER){
@@ -86,13 +89,13 @@ public class LevelModel extends AbstractLevelContext{
                 }
             }
 
+            float sweetSpotX = GameHelper.notFilledPosition(game).x;
+            float sweetSpotY = GameHelper.notFilledPosition(game).y;
+
         //   Make sure the right amount of enemies keeps spawning in
             if(enemies < ScoreKeeper.getInitialEnemies()){
                 for (int i = enemies; i < numberOfLevel; i++) {
-                    entityFactory.createEnemy(
-                            GameHelper.notFilledPosition(game).x,
-                            GameHelper.notFilledPosition(game).y
-                    );
+                    entityFactory.createEnemy(sweetSpotX, sweetSpotY);
                 }
                 enemies = ScoreKeeper.getInitialEnemies();
                 System.out.println("new enemy");

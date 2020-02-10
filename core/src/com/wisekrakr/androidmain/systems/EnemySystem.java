@@ -35,8 +35,6 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
 
         enemyComponent.setSpeed(EntityStyleHelper.getStyle().getSwordSpeed());
 
-
-
         for (Entity ent: game.getEngine().getEntities()){
             if (ent.getComponent(TypeComponent.class).getType()== TypeComponent.Type.PLAYER && enemyComponent.getPosition() != null){
 

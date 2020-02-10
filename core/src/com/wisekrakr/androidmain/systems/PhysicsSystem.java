@@ -45,6 +45,7 @@ public class PhysicsSystem extends IteratingSystem {
             accumulator -= MAX_STEP_TIME;
 
             for (Entity entity : gameObjects) {
+
                 TransformComponent transformComponent = transformComponentMapper.get(entity);
                 Box2dBodyComponent bodyComponent = box2dBodyComponentMapper.get(entity);
 
