@@ -15,6 +15,10 @@ public class TimeKeeper {
         this.time = time;
     }
 
+    public float getTime() {
+        return time;
+    }
+
     public float gameClock = 0;
 
     public float timeToChase = 0;

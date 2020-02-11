@@ -60,7 +60,6 @@ public class PlayScreen extends ScreenAdapter  {
         game.getEngine().addSystem(new PlayerSystem(game));
         game.getEngine().addSystem(new EnemySystem(game));
         game.getEngine().addSystem(new GameObjectSystem(game));
-        game.getEngine().addSystem(new PowerUpSystem(game));
 
         visualizer = new Visualizer(game);
         controls = new Controls();
@@ -96,6 +95,7 @@ public class PlayScreen extends ScreenAdapter  {
         visualizer.getRenderingSystem().getCamera().update();
 
         levelGenerationSystem.updateLevels(delta);
+
 
 //        visualizer.debugDrawableFilled();
 //        visualizer.debugDrawableLine(delta);

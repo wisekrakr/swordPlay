@@ -10,6 +10,7 @@ import com.wisekrakr.androidmain.components.EntityStyleContext;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class EnemyComponent extends GameObject implements  Pool.Poolable {
 
     private int bounces = 0;

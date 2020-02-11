@@ -26,7 +26,7 @@ public class EntityVisuals implements EntityVisualsContext {
         try{
             TypeComponent.Type type = ComponentMapper.getFor(TypeComponent.class).get(entity).getType();
             if (type == TypeComponent.Type.POWER){
-                com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = game.getGameThread().getComponentMapperSystem().getPowerUpComponentMapper().get(entity);
+                GameObject powerUpComponent = game.getGameThread().getComponentMapperSystem().getObjectComponentMapper().get(entity);
 
                 switch (PowerHelper.getPower()){
 
@@ -50,9 +50,9 @@ public class EntityVisuals implements EntityVisualsContext {
             }else if (type == TypeComponent.Type.OBSTACLE){
                 GameObject obstacleComponent = game.getGameThread().getComponentMapperSystem().getObjectComponentMapper().get(entity);
 
-                drawObjectViaAtlas(entity, "images/others/others.atlas", "platform",
-                        obstacleComponent.getWidth(), obstacleComponent.getHeight()
-                );
+//                drawObjectViaAtlas(entity, "images/others/others.atlas", "platform",
+//                        obstacleComponent.getWidth(), obstacleComponent.getHeight()
+//                );
 
             }
 
@@ -128,6 +128,7 @@ public class EntityVisuals implements EntityVisualsContext {
                         );
 
                         break;
+
 
                 }
 

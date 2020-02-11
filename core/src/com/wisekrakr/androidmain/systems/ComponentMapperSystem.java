@@ -9,8 +9,6 @@ public class ComponentMapperSystem {
     private ComponentMapper<com.wisekrakr.androidmain.components.objects.EnemyComponent> enemyComponentMapper;
     private ComponentMapper<Box2dBodyComponent> bodyComponentMapper;
     private ComponentMapper<CollisionComponent> collisionComponentMapper;
-    private ComponentMapper<com.wisekrakr.androidmain.components.objects.PowerUpComponent> powerUpComponentMapper;
-    private ComponentMapper<ParticleEffectComponent> particleEffectComponentMapper;
     private ComponentMapper<com.wisekrakr.androidmain.components.objects.PlayerComponent> playerComponentMapper;
     private ComponentMapper<TextureComponent> textureComponentMapper;
     private ComponentMapper<TransformComponent> transformComponentMapper;
@@ -24,8 +22,6 @@ public class ComponentMapperSystem {
         enemyComponentMapper = ComponentMapper.getFor(com.wisekrakr.androidmain.components.objects.EnemyComponent.class);
         bodyComponentMapper = ComponentMapper.getFor(Box2dBodyComponent.class);
         collisionComponentMapper = ComponentMapper.getFor(CollisionComponent.class);
-        powerUpComponentMapper = ComponentMapper.getFor(com.wisekrakr.androidmain.components.objects.PowerUpComponent.class);
-        particleEffectComponentMapper = ComponentMapper.getFor(ParticleEffectComponent.class);
         playerComponentMapper = ComponentMapper.getFor(com.wisekrakr.androidmain.components.objects.PlayerComponent.class);
         textureComponentMapper = ComponentMapper.getFor(TextureComponent.class);
         transformComponentMapper = ComponentMapper.getFor(TransformComponent.class);
@@ -49,14 +45,9 @@ public class ComponentMapperSystem {
         return collisionComponentMapper;
     }
 
-    public ComponentMapper<com.wisekrakr.androidmain.components.objects.PowerUpComponent> getPowerUpComponentMapper() {
-        return powerUpComponentMapper;
-    }
 
 
-    public ComponentMapper<ParticleEffectComponent> getParticleEffectComponentMapper() {
-        return particleEffectComponentMapper;
-    }
+
 
     public ComponentMapper<com.wisekrakr.androidmain.components.objects.PlayerComponent> getPlayerComponentMapper() {
         return playerComponentMapper;

@@ -70,9 +70,6 @@ public class MyAssetManager implements Disposable {
     public void loadTextures() {
 
         assetManager.load("images/background/mainbg.jpg", Texture.class);
-        assetManager.load("images/others/seanA.png", Texture.class);
-        assetManager.load("images/others/seanB.png", Texture.class);
-        assetManager.load("images/others/seanC.png", Texture.class);
         assetManager.load("images/background/drops.png", Texture.class);
         assetManager.finishLoading();
     }
@@ -88,7 +85,7 @@ public class MyAssetManager implements Disposable {
     public void queueGameImages(){
         assetManager.load("images/players/players.atlas", TextureAtlas.class);
         assetManager.load("images/powerups/powerups.atlas", TextureAtlas.class);
-        assetManager.load("images/others/others.atlas", TextureAtlas.class);
+//        assetManager.load("images/others/others.atlas", TextureAtlas.class);
 
     }
 
@@ -98,13 +95,7 @@ public class MyAssetManager implements Disposable {
         assetManager.load("images/loading/loading.atlas", TextureAtlas.class);
     }
 
-    public void loadParticleEffects(){
-        ParticleEffectLoader.ParticleEffectParameter effectParameter = new ParticleEffectLoader.ParticleEffectParameter();
-        effectParameter.imagesDir = Gdx.files.internal("images/particles/exhaust.party");
 
-        assetManager.load("images/particles/exhaust.party", ParticleEffect.class);
-
-    }
 
     @Override
     public void dispose() {

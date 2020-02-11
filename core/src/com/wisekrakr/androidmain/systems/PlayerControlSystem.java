@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.wisekrakr.androidmain.MainGame;
 import com.wisekrakr.androidmain.components.*;
+import com.wisekrakr.androidmain.components.objects.GameObject;
 import com.wisekrakr.androidmain.components.objects.PlayerComponent;
 import com.wisekrakr.androidmain.controls.Controls;
 import com.wisekrakr.androidmain.helpers.GameHelper;
@@ -22,7 +23,7 @@ public class PlayerControlSystem extends IteratingSystem {
 
     @SuppressWarnings("unchecked")
     public PlayerControlSystem(MainGame game, Controls controls, OrthographicCamera camera) {
-        super(Family.all(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).get());
+        super(Family.all(PlayerComponent.class).get());
         this.game = game;
         controller = controls;
         this.camera = camera;
@@ -31,7 +32,8 @@ public class PlayerControlSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
-        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        TypeComponent.Type type = entity.getComponent(TypeComponent.class).getType();
 
 //        movement(entity); //todo keyboard input if ever wanted
 
@@ -42,13 +44,15 @@ public class PlayerControlSystem extends IteratingSystem {
         float angle = GameHelper.angleBetween(bodyComponent.body.getPosition(), new Vector2(mousePos.x, mousePos.y));
         bodyComponent.body.setTransform(bodyComponent.body.getPosition(), angle);
 
-        if (controller.isLeftMouseDown || Gdx.input.isTouched()){
+        if (controller.isLeftMouseDown ){
             bodyComponent.body.setLinearVelocity(
                     bodyComponent.body.getLinearVelocity().x + playerComponent.getSpeed() * MathUtils.cos(angle),
                     bodyComponent.body.getLinearVelocity().y + playerComponent.getSpeed() * MathUtils.sin(angle)
             );
             playerComponent.setMoving(true);
-        }else if (controller.nextLevel) { //left alt
+        }
+
+        else if (controller.nextLevel) { //left alt
 //            game.getGameThread().getTimeKeeper().setTime(0);
             game.changeScreen(MainGame.SUPERENDGAME);
         }

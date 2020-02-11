@@ -48,22 +48,6 @@ public class ComponentHelper {
             mainEntity.add(textureComponent);
         }
 
-
-        @Override
-        public void powerUpComponent(PooledEngine engine, Entity mainEntity, float x, float y, float velocityX, float velocityY, float width, float height, PowerHelper.Power power) {
-            com.wisekrakr.androidmain.components.objects.PowerUpComponent powerUpComponent = engine.createComponent(com.wisekrakr.androidmain.components.objects.PowerUpComponent.class);
-
-            powerUpComponent.setWidth(width);
-            powerUpComponent.setHeight(height);
-            powerUpComponent.setVelocityX(velocityX);
-            powerUpComponent.setVelocityY(velocityY);
-            powerUpComponent.setPosition(new Vector2(x,y));
-            PowerHelper.setPowerUp(mainEntity, power);
-
-            mainEntity.add(powerUpComponent);
-        }
-
-
     };
 
 }

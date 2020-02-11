@@ -17,17 +17,17 @@ public class PlayerSystem extends IteratingSystem implements SystemEntityContext
 
     @SuppressWarnings("unchecked")
     public PlayerSystem(MainGame game){
-        super(Family.all(com.wisekrakr.androidmain.components.objects.PlayerComponent.class).get());
+        super(Family.all(PlayerComponent.class).get());
         this.game = game;
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        com.wisekrakr.androidmain.components.objects.PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
+        PlayerComponent playerComponent = game.getGameThread().getComponentMapperSystem().getPlayerComponentMapper().get(entity);
         CollisionComponent collisionComponent = game.getGameThread().getComponentMapperSystem().getCollisionComponentMapper().get(entity);
         Box2dBodyComponent bodyComponent = game.getGameThread().getComponentMapperSystem().getBodyComponentMapper().get(entity);
 
-        playerComponent.setSpeed(EntityStyleHelper.getStyle().getSwordSpeed());
+        playerComponent.setSpeed(SelectedCharacter.getSelectedCharacterStyle().getSwordSpeed());
 
         if (!playerComponent.isDestroy()) {
             swordHandler(entity);

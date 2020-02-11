@@ -12,12 +12,8 @@ import com.wisekrakr.androidmain.GameConstants;
 import com.wisekrakr.androidmain.factories.LevelFactory;
 
 import com.wisekrakr.androidmain.helpers.GameHelper;
-import com.wisekrakr.androidmain.helpers.PowerHelper;
 import com.wisekrakr.androidmain.retainers.ScoreKeeper;
 import com.wisekrakr.androidmain.retainers.SelectedCharacter;
-import com.wisekrakr.androidmain.systems.PhysicsSystem;
-
-import java.util.Iterator;
 
 
 public class LevelModel extends AbstractLevelContext{
@@ -34,7 +30,6 @@ public class LevelModel extends AbstractLevelContext{
 
         entityFactory = new EntityFactory(game, game.getGameThread().getPhysicsSystem().getWorld());
         levelFactory = new LevelFactory(game, entityFactory);
-
     }
 
 //    4 walls as game objects (todo: closing in after some time?)
@@ -46,7 +41,7 @@ public class LevelModel extends AbstractLevelContext{
         entityFactory.createWalls(0,0, GameConstants.WORLD_WIDTH * 2, 1f);
     }
 
-    public void setEnemies(Integer enemies) {
+    private void setEnemies(Integer enemies) {
         this.enemies = enemies;
     }
 
@@ -66,30 +61,30 @@ public class LevelModel extends AbstractLevelContext{
         if (SelectedCharacter.isDestroyed() && ScoreKeeper.lives > 0){
 
             spawnNewPlayer();
-
         }
-//        When the player is in the game
+//        When the player has lives left and the timer is not 0 yet
         else if (!SelectedCharacter.isDestroyed()){
-            Iterator<Entity>iterator = game.getEngine().getEntities().iterator();
-
-            if(iterator.hasNext()){
-                Entity ent = iterator.next();
-                TypeComponent.Type type = ent.getComponent(TypeComponent.class).getType();
-
-                if(type == TypeComponent.Type.PLAYER){
+            for(Entity ent: game.getEngine().getEntities()){
+                if(ent.getComponent(TypeComponent.class).getType() == TypeComponent.Type.PLAYER){
                     if (ent.getComponent(PlayerComponent.class).isMoving()) {
 
-                        game.getGameThread().getTimeKeeper().time -= delta;
+                        game.getGameThread().getTimeKeeper().setTime(game.getGameThread().getTimeKeeper().time  -= delta);
                         powerUpInitializer();
 
+//                        When the Timer hits 0, the player has survived
                         if (game.getGameThread().getTimeKeeper().time <=0){
                             completeLevel(numberOfLevel);
                         }
                     } else {
                         game.getGameThread().getTimeKeeper().setTime(game.getGameThread().getTimeKeeper().time);
                     }
+                }else if(ent.getComponent(TypeComponent.class).getType() == TypeComponent.Type.ENEMY) {
+                    if (ent.getComponent(EnemyComponent.class).isDestroy()) {
+                          setEnemies(ScoreKeeper.getInitialEnemies() - 1);
+                    }
                 }
             }
+
 
             float sweetSpotX = GameHelper.notFilledPosition(game).x;
             float sweetSpotY = GameHelper.notFilledPosition(game).y;
@@ -113,7 +108,8 @@ public class LevelModel extends AbstractLevelContext{
     private void spawnNewPlayer(){
         SelectedCharacter.setDestroyed(false);
         entityFactory.createPlayer(
-                GameConstants.WORLD_WIDTH /2, GameConstants.WORLD_HEIGHT /2
+                GameConstants.WORLD_WIDTH /2, GameConstants.WORLD_HEIGHT /2,
+                SelectedCharacter.getSelectedCharacterStyle()
         );
     }
 
@@ -122,7 +118,7 @@ public class LevelModel extends AbstractLevelContext{
         for (Entity entity: game.getEngine().getEntities()){
             if (entity.getComponent(TypeComponent.class).getType() == TypeComponent.Type.ENEMY){
                 if (entity.getComponent(CollisionComponent.class).hitSword && entity.getComponent(EnemyComponent.class).isDestroy()){
-                    ScoreKeeper.setPointsToGive(25);
+                    ScoreKeeper.setPointsToGive(100);
                     ScoreKeeper.setScore(ScoreKeeper.getPointsToGive());
                 }
             }
@@ -144,10 +140,7 @@ public class LevelModel extends AbstractLevelContext{
             if (ScoreKeeper.getInitialPowerUps() == 0) {
                 entityFactory.createPower(
                         GameHelper.notFilledPosition(game).x,
-                        GameHelper.notFilledPosition(game).y,
-                        GameHelper.generateRandomNumberBetween(-20f, 20f),
-                        GameHelper.generateRandomNumberBetween(-20f, 20f),
-                        PowerHelper.randomPowerUp()
+                        GameHelper.notFilledPosition(game).y
                 );
                 ScoreKeeper.setInitialPowerUps(1);
             }

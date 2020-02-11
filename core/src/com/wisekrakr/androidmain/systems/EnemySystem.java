@@ -121,7 +121,6 @@ public class EnemySystem extends IteratingSystem implements SystemEntityContext{
 
         bodyComponent.isDead = true;
 
-//        game.getGameThread().getLevelGenerationSystem().getLevelModel().setEnemies(ScoreKeeper.getInitialEnemies() - 1);
     }
 
     @Override

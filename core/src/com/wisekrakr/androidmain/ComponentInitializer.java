@@ -14,5 +14,4 @@ public interface ComponentInitializer {
     void collisionComponent(PooledEngine engine, Entity mainEntity);
     void transformComponent(PooledEngine engine, Entity mainEntity, float x, float y, float rotation);
     void textureComponent(PooledEngine engine, Entity mainEntity);
-    void powerUpComponent(PooledEngine engine, Entity mainEntity, float x, float y, float velocityX, float velocityY, float width, float height, PowerHelper.Power power);
 }
